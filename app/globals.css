@@ -1,26 +1,287 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ---------------------------------------------------------------
+   Tokens (Components and Tokens, section 01). Three themes switched
+   by data-theme on <html>: dark (default), light, devroom.
+   --------------------------------------------------------------- */
+:root,
+[data-theme="dark"] {
+  --ink: #0e0f0c;
+  --bone: #ece8df;
+  --signal: #39ff14;
+  --dim: #8a877f;
+  --line: rgba(236, 232, 223, 0.16);
+  --hair: rgba(236, 232, 223, 0.08);
+  --ok: #39ff14;
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --ink: #ece8df;
+  --bone: #0e0f0c;
+  --signal: #39ff14;
+  --dim: #5f5d57;
+  --line: rgba(14, 15, 12, 0.18);
+  --hair: rgba(14, 15, 12, 0.07);
+  --ok: #39ff14;
+  color-scheme: light;
+}
+
+[data-theme="devroom"] {
+  --ink: #020a02;
+  --bone: #b8ffb0;
+  --signal: #39ff14;
+  --dim: #5e9a58;
+  --line: rgba(184, 255, 176, 0.25);
+  --hair: rgba(184, 255, 176, 0.08);
+  --ok: #39ff14;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-bone: var(--bone);
+  --color-signal: var(--signal);
+  --color-dim: var(--dim);
+  --color-line: var(--line);
+  --color-hair: var(--hair);
+  --color-ok: var(--ok);
+
+  --font-pixel: var(--font-departure), ui-monospace, monospace;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  --font-sans: var(--font-satoshi), system-ui, sans-serif;
+
+  --breakpoint-md: 768px;
+
+  --animate-blink: blink 1s steps(1) infinite;
+  --animate-blink-slow: blink 1.2s steps(1) infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  /* Radius 0 everywhere. */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-radius: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 48px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--ink);
+    color: var(--bone);
+    font-family: var(--font-satoshi), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--signal);
+  }
+  /* Every interactive element eases its state changes and presses in slightly. */
+  a,
+  button {
+    touch-action: manipulation;
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease,
+      border-color 0.18s ease,
+      opacity 0.18s ease,
+      transform 0.18s ease,
+      translate 0.18s ease;
+  }
+  a:active,
+  button:active {
+    transform: translateY(1px);
+  }
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--signal);
+    color: var(--ink);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Departure Mono ships a single weight; never fake-bold the pixels. */
+.font-pixel {
+  font-synthesis: none;
+}
+
+/* Boot overlay is hidden before paint once it has run this session. */
+html[data-booted] [data-boot] {
+  display: none;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes eq1 {
+  0%, 100% { height: 4px; }
+  50% { height: 14px; }
+}
+@keyframes eq2 {
+  0%, 100% { height: 12px; }
+  50% { height: 5px; }
+}
+@keyframes eq3 {
+  0%, 100% { height: 7px; }
+  50% { height: 15px; }
+}
+@keyframes drift1 {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(60px, -30px); }
+  50% { transform: translate(20px, 50px); }
+  75% { transform: translate(-40px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes drift2 {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(-50px, 40px); }
+  66% { transform: translate(30px, -60px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes reveal {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes flashin {
+  0% { transform: translateY(-100%); }
+  15% { transform: translateY(0); }
+  85% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@utility meta {
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+@utility stripes {
+  background: repeating-linear-gradient(135deg, transparent 0 10px, var(--hair) 10px 11px);
+}
+@utility stripes-sm {
+  background: repeating-linear-gradient(135deg, transparent 0 6px, var(--hair) 6px 7px);
+}
+@utility stripes-md {
+  background: repeating-linear-gradient(135deg, transparent 0 8px, var(--hair) 8px 9px);
+}
+@utility scanlines {
+  background:
+    repeating-linear-gradient(0deg, transparent 0 2px, rgba(0, 0, 0, 0.35) 2px 3px),
+    repeating-linear-gradient(135deg, transparent 0 10px, var(--hair) 10px 11px);
+}
+
+/* Hero media: darkened on dark themes, washed toward the page in light theme. */
+.hero-media {
+  filter: brightness(0.35) grayscale(0.2);
+}
+.hero-media-soft {
+  filter: brightness(0.6);
+}
+[data-theme="light"] :is(.hero-media, .hero-media-soft) {
+  filter: grayscale(1) contrast(0.9);
+  opacity: 0.18;
+}
+/* The faded image no longer hides its slot label in light theme. */
+[data-theme="light"] :has(> :is(.hero-media, .hero-media-soft)) > [aria-hidden="true"] {
+  visibility: hidden;
+}
+
+/* Brand icons are masks so they follow the theme's text color. */
+.icon-mask {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+  flex: none;
+}
+
+/* ---------------------------------------------------------------
+   Motion. Animations run regardless of the OS "reduce motion"
+   setting by design; there is intentionally no reduced-motion override.
+   --------------------------------------------------------------- */
+:root {
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Title screen entrance: starts when the boot overlay finishes. */
+html[data-booted] .hero-in {
+  animation: rise 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--d, 0) * 110ms);
+}
+
+/* Scroll reveal (see components/ScrollFx.tsx): each section's children rise in, staggered. */
+.rv-hide > * {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.rv-show > * {
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+  transition-delay: calc(var(--rv-i, 0) * 90ms);
+}
+
+/* HUD scroll progress, driven by the page's scroll position. */
+.scroll-progress {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: grow-x linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes grow-x {
+  to { transform: scaleX(1); }
+}
+
+/* Theme switch: the new theme wipes out in a circle from the toggle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: theme-wipe 0.6s cubic-bezier(0.7, 0, 0.2, 1);
+}
+@keyframes theme-wipe {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 50%)); }
 }

@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# stevecoder.com
 
-## Getting Started
-
-First, run the development server:
+A portfolio built like a game save file. Next.js App Router, TypeScript, Tailwind v4, Motion, deployed on Vercel.
 
 ```bash
+npm install
+cp .env.example .env.local   # FEEDS_MODE=mock serves the design's mock data
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Path | What |
+| --- | --- |
+| `app/globals.css` | Tokens and the three themes (`dark`, `light`, `devroom`) on `<html data-theme>`, keyframes (all `steps(n)`), reduced-motion rule |
+| `lib/content.ts` | Quest Log, stats, achievements, inventory, guestbook seed |
+| `lib/levels.ts` | Level Select + all six case studies. Invented copy starts with `TODO:` |
+| `lib/slots.ts` | Home page image slots |
+| `lib/feeds.ts` | GitHub, Last.fm, YouTube, Steam, Open-Meteo. Each resolves to live or offline; loading is the Suspense fallback |
+| `components/game/` | Theme, Konami, presence, terminal |
+| `components/home/` | One file per home section |
+| `app/levels/[slug]/` | Case study template + OG images |
+| `lib/og.tsx` | OG templates (home dark/light, project, case study) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Images
 
-## Learn More
+Every `insert: …` box is a slot rendered with `next/image` (label = alt text). Placeholder files in
+`public/images/` are transparent PNGs, so the labeled box shows through. To fill a slot, drop a real image at the
+same path, or change its `src` in `lib/levels.ts` / `lib/slots.ts`. `npm run placeholders` recreates any missing
+placeholder.
 
-To learn more about Next.js, take a look at the following resources:
+Real images already in place: the headshot, and Undead Presidents crops (hero, featured, gallery split-screen,
+Steam capsule) plus the Code Quantum team photo, all from the old site.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+OG project cards use `assets/og/<slug>.jpg` (600x630) when present.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment
 
-## Deploy on Vercel
+See `.env.example`. Without keys, a widget shows its offline state; the contact form and guestbook return
+their error states. `FEEDS_MODE=mock` fakes everything for local work. Never set it in production.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Guestbook, rate limits, and "players online" use Upstash Redis. Add it from the Vercel Marketplace
+(`vercel integration add upstash`); it provisions `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Moderating the guestbook
+
+Entries land as pending. With `GUESTBOOK_ADMIN_TOKEN` set:
+
+```bash
+curl -H "Authorization: Bearer $TOKEN" https://stevecoder.com/api/guestbook/moderate
+curl -X POST -H "Authorization: Bearer $TOKEN" -d '{"id":"<id>","action":"approve"}' https://stevecoder.com/api/guestbook/moderate
+```
+
+Approving revalidates `/`.
+
+## Fonts
+
+Self-hosted in `public/fonts`, subset to Latin: Departure Mono (replaces the Silkscreen stand-in from the
+designs), Satoshi 400/500/700, JetBrains Mono 400. Full `.otf`/`.ttf` copies for OG rendering live in
+`assets/og-fonts`.
