@@ -58,6 +58,8 @@ export function DevRoom() {
 const SUN =
   "M6 0h1v2H6zM2 2h1v1H2zM10 2h1v1H10zM5 3h3v1H5zM4 4h5v1H4zM3 5h7v3H3zM0 6h2v1H0zM11 6h2v1H11zM4 8h5v1H4zM5 9h3v1H5zM2 10h1v1H2zM10 10h1v1H10zM6 11h1v2H6z";
 const MOON = "M4 1h1v1H4zM3 2h2v1H3zM2 3h3v1H2zM1 4h4v3H1zM1 7h5v1H1zM1 8h7v1H1zM2 9h9v1H2zM3 10h7v1H3zM4 11h5v1H4z";
+const EXIT =
+  "M1 1h2v1H1zM10 1h2v1H10zM2 2h2v1H2zM9 2h2v1H9zM3 3h2v1H3zM8 3h2v1H8zM4 4h2v1H4zM7 4h2v1H7zM5 5h3v2H5zM4 7h2v1H4zM7 7h2v1H7zM3 8h2v1H3zM8 8h2v1H8zM2 9h2v1H2zM9 9h2v1H9zM1 10h2v1H1zM10 10h2v1H10z";
 
 function PixelIcon({ d, className }: { d: string; className?: string }) {
   return (
@@ -67,23 +69,27 @@ function PixelIcon({ d, className }: { d: string; className?: string }) {
   );
 }
 
-/** Sun in light mode, moon in dark; clicking wipes the other theme in from the button. */
+/** Sun in light mode, moon in dark, an X in the dev room; clicking wipes the next theme in from the button. */
 function ThemeToggle({ className }: { className?: string }) {
   const { theme, toggleTheme } = useGame();
   const light = theme === "light";
+  const dev = theme === "devroom";
+  const label = dev ? "Exit dev room" : light ? "Switch to dark mode" : "Switch to light mode";
   const icon = "absolute transition-[opacity,rotate,scale] duration-500 ease-[var(--ease-out)]";
+  const shown = "rotate-0 scale-100 opacity-100";
   return (
     <button
       onClick={(e) => {
         const r = e.currentTarget.getBoundingClientRect();
         toggleTheme({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
       }}
-      aria-label={light ? "Switch to dark mode" : "Switch to light mode"}
-      title={light ? "Dark mode" : "Light mode"}
+      aria-label={label}
+      title={dev ? label : light ? "Dark mode" : "Light mode"}
       className={cx("relative grid size-11 place-items-center border border-line hover:border-signal hover:text-signal md:size-10", className)}
     >
-      <PixelIcon d={SUN} className={cx(icon, light ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-50 opacity-0")} />
-      <PixelIcon d={MOON} className={cx(icon, light ? "rotate-90 scale-50 opacity-0" : "rotate-0 scale-100 opacity-100")} />
+      <PixelIcon d={SUN} className={cx(icon, light ? shown : "-rotate-90 scale-50 opacity-0")} />
+      <PixelIcon d={MOON} className={cx(icon, !light && !dev ? shown : "rotate-90 scale-50 opacity-0")} />
+      <PixelIcon d={EXIT} className={cx(icon, dev ? shown : "rotate-45 scale-50 opacity-0")} />
     </button>
   );
 }
