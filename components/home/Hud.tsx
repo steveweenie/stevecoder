@@ -8,7 +8,7 @@ import { go, MENU, SITE, statusFor } from "@/lib/site";
 const bar = "absolute left-0 h-0.5 w-4 bg-bone transition-[translate,rotate,opacity] duration-200";
 
 export function Hud({ initialStatus }: { initialStatus: string }) {
-  const { players, weather, setTerm } = useGame();
+  const { players, weather, setTerm, theme, toggleTheme } = useGame();
   const [status, setStatus] = useState(initialStatus);
   const [menu, setMenu] = useState(false);
 
@@ -40,7 +40,19 @@ export function Hud({ initialStatus }: { initialStatus: string }) {
             San Antonio {weather.tempF}F {weather.desc}
           </div>
         )}
-        <div className="ml-auto flex items-center gap-6">
+        <div className="ml-auto flex items-center gap-4 md:gap-6">
+          {theme === "devroom" && (
+            <button
+              onClick={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                toggleTheme({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+              }}
+              aria-label="Exit dev room"
+              className="whitespace-nowrap border border-signal px-2.5 py-1.5 uppercase text-signal hover:bg-signal hover:text-ink"
+            >
+              Exit<span className="max-md:hidden"> dev room</span>
+            </button>
+          )}
           <span className="hidden text-dim md:inline">
             <span className="text-bone">{players}</span> online
           </span>
