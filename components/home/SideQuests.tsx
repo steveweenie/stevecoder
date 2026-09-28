@@ -17,7 +17,8 @@ import { SITE } from "@/lib/site";
 
 type W<T> = Feed<T> | { state: "loading" };
 
-const HEAT = ["var(--hair)", "rgba(57,255,20,.3)", "rgba(57,255,20,.55)", "rgba(57,255,20,.8)", "var(--signal)"];
+const tint = (pct: number) => `color-mix(in srgb, var(--signal) ${pct}%, transparent)`;
+const HEAT = ["var(--hair)", tint(30), tint(55), tint(80), "var(--signal)"];
 const DOT = { live: "var(--ok)", loading: "var(--dim)", offline: "var(--signal)" };
 
 function Panel({ span, className = "", children }: { span: 2 | 3 | 4; className?: string; children: ReactNode }) {

@@ -26,7 +26,7 @@ async function dataUri(p: string) {
   return `data:image/jpeg;base64,${(await readFile(p)).toString("base64")}`;
 }
 
-const C = { ink: "#0E0F0C", bone: "#ECE8DF", signal: "#39FF14", signalLight: "#167000", dim: "#8A877F" };
+const C = { ink: "#0E0F0C", bone: "#ECE8DF", signal: "#39FF14", signalLight: "#007A00", dim: "#8A877F" };
 const mono = { fontFamily: "JetBrains", fontSize: 18, letterSpacing: 2.16, textTransform: "uppercase" as const };
 const stripes = (c: string) => `repeating-linear-gradient(135deg, transparent 0px, transparent 12px, ${c} 12px, ${c} 13px)`;
 
