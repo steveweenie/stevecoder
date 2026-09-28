@@ -52,6 +52,18 @@ export const QUESTS: Quest[] = [
     ],
   },
   {
+    dates: "May 2025 – Now",
+    role: "Co-Founder & Software Developer",
+    roleShort: "Co-Founder & Developer",
+    org: "The CRVL",
+    active: true,
+    tags: ["JavaScript", "React Native", "Tailwind", "Shopify"],
+    bullets: [
+      "Co-founded a marketing agency that pairs creative strategy with software.",
+      "Built client sites and apps, including maluhialove.com.",
+    ],
+  },
+  {
     dates: "Aug – Sep 2026",
     role: "Contract Web Designer",
     org: "Atlantic Records",
@@ -81,18 +93,6 @@ export const QUESTS: Quest[] = [
     bullets: [
       "Shipped features on Go: Work Management and Go: Asset Management, used by 150+ universities.",
       "Built a Grainger API ordering integration.",
-    ],
-  },
-  {
-    dates: "May 2025 – Mar 2026",
-    role: "Co-Founder & Software Developer",
-    roleShort: "Co-Founder & Developer",
-    org: "The CRVL",
-    early: true,
-    tags: ["JavaScript", "React Native", "Tailwind", "Shopify"],
-    bullets: [
-      "Co-founded a marketing agency that pairs creative strategy with software.",
-      "Built client sites and apps, including maluhialove.com.",
     ],
   },
   {
