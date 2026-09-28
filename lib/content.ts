@@ -39,31 +39,6 @@ export const QUESTS: Quest[] = [
     ],
   },
   {
-    dates: "Jan 2026 – Now",
-    role: "Head of Technology",
-    org: "Aloha Table Tennis Association",
-    active: true,
-    tags: ["Next.js", "TypeScript", "Supabase", "Stripe", "Clerk", "Vercel"],
-    bullets: [
-      "Built alohatabletennis.org for 200+ users and 50 to 70 paying members: 43 pages and 69 API routes.",
-      "Designed a 38-table Postgres schema with row-level security.",
-      "Built Stripe billing across 10 webhook events, with idempotency.",
-      "Shipped it as a 16-language PWA.",
-    ],
-  },
-  {
-    dates: "May 2025 – Now",
-    role: "Co-Founder & Software Developer",
-    roleShort: "Co-Founder & Developer",
-    org: "The CRVL",
-    active: true,
-    tags: ["JavaScript", "React Native", "Tailwind", "Shopify"],
-    bullets: [
-      "Co-founded a marketing agency that pairs creative strategy with software.",
-      "Built client sites and apps, including maluhialove.com.",
-    ],
-  },
-  {
     dates: "Aug – Sep 2026",
     role: "Contract Web Designer",
     org: "Atlantic Records",
@@ -93,6 +68,31 @@ export const QUESTS: Quest[] = [
     bullets: [
       "Shipped features on Go: Work Management and Go: Asset Management, used by 150+ universities.",
       "Built a Grainger API ordering integration.",
+    ],
+  },
+  {
+    dates: "Jan 2026 – Now",
+    role: "Head of Technology",
+    org: "Aloha Table Tennis Association",
+    active: true,
+    tags: ["Next.js", "TypeScript", "Supabase", "Stripe", "Clerk", "Vercel"],
+    bullets: [
+      "Built alohatabletennis.org for 200+ users and 50 to 70 paying members: 43 pages and 69 API routes.",
+      "Designed a 38-table Postgres schema with row-level security.",
+      "Built Stripe billing across 10 webhook events, with idempotency.",
+      "Shipped it as a 16-language PWA.",
+    ],
+  },
+  {
+    dates: "May 2025 – Now",
+    role: "Co-Founder & Software Developer",
+    roleShort: "Co-Founder & Developer",
+    org: "The CRVL",
+    active: true,
+    tags: ["JavaScript", "React Native", "Tailwind", "Shopify"],
+    bullets: [
+      "Co-founded a marketing agency that pairs creative strategy with software.",
+      "Built client sites and apps, including maluhialove.com.",
     ],
   },
   {
