@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useGame } from "../game/GameProvider";
 import { cx } from "../ui";
+import { WeatherIcon } from "./WeatherIcon";
 import { go, MENU, SITE, statusFor } from "@/lib/site";
 
 const bar = "absolute left-0 h-0.5 w-4 bg-bone transition-[translate,rotate,opacity] duration-200";
@@ -36,8 +37,14 @@ export function Hud({ initialStatus }: { initialStatus: string }) {
           <span>{status}</span>
         </div>
         {weather && (
-          <div className="hidden items-center gap-2 text-dim xl:flex">
-            San Antonio {weather.tempF}F {weather.desc}
+          <div className="hidden items-center gap-2 text-dim md:flex" title={`San Antonio, ${weather.tempF}°F, ${weather.desc}`}>
+            <span className="text-bone">
+              <WeatherIcon kind={weather.icon} size={14} />
+            </span>
+            <span className="text-bone">{weather.tempF}°F</span>
+            <span className="hidden xl:inline">
+              San Antonio · {weather.desc}
+            </span>
           </div>
         )}
         <div className="ml-auto flex items-center gap-4 md:gap-6">

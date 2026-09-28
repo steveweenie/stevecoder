@@ -6,8 +6,12 @@ export type Quest = {
   org: string;
   orgShort?: string;
   active?: boolean;
+  /** Listed under "Earlier quests": the work that led here. */
+  early?: boolean;
   tags: string[];
   bullets: string[];
+  /** Full toolkit, grouped, for roles where the tags can't cover it. */
+  stack?: [group: string, items: string][];
 };
 
 export const QUESTS: Quest[] = [
@@ -18,11 +22,20 @@ export const QUESTS: Quest[] = [
     org: "Y&L Consulting (NSSA-NSCA)",
     orgShort: "Y&L Consulting",
     active: true,
-    tags: ["VB.NET", "C#", "PHP", "SQL Server", "Azure"],
+    tags: ["VB.NET", "C#", "PHP", "T-SQL", "Azure", "Azure DevOps"],
     bullets: [
-      "Maintains apps for a nonprofit serving 15,000 members and 700+ clubs.",
-      "Writes the SQL Server procedures behind national competition results.",
-      "Supports the Azure modernization of a legacy PHP and WordPress platform.",
+      "Develops and maintains VB.NET, C#, and PHP apps for a nonprofit serving 15,000 members and 700+ clubs.",
+      "Writes the T-SQL stored procedures behind national competition results.",
+      "Supports the Azure modernization of a legacy PHP and WordPress platform, with work tracked in Azure DevOps.",
+      "Also covers IT support across Microsoft 365, Entra, and Windows Server.",
+    ],
+    stack: [
+      ["Languages", "VB.NET, C#, PHP, T-SQL, PowerShell, JavaScript / jQuery, HTML / CSS"],
+      ["Frameworks", ".NET Framework, ASP.NET, WordPress, Joomla, Bootstrap"],
+      ["Data", "Microsoft SQL Server, SSMS, Excel"],
+      ["Azure", "Azure DevOps, Entra ID, Key Vault, Azure Identity, Microsoft Graph"],
+      ["Microsoft 365", "Exchange, Teams, SharePoint, OneDrive, Office"],
+      ["Tools", "Visual Studio, VS Code, NuGet, Windows Server, Freshworks"],
     ],
   },
   {
@@ -51,7 +64,7 @@ export const QUESTS: Quest[] = [
   },
   {
     dates: "May – Aug 2026",
-    role: "Associate Software Developer Intern",
+    role: "Associate Software Engineer Intern",
     org: "Thrivent Financial",
     tags: ["Python", "SQL", "Databricks", "Airflow", "Power BI"],
     bullets: [
@@ -70,13 +83,104 @@ export const QUESTS: Quest[] = [
       "Built a Grainger API ordering integration.",
     ],
   },
+  {
+    dates: "May 2025 – Mar 2026",
+    role: "Co-Founder & Software Developer",
+    roleShort: "Co-Founder & Developer",
+    org: "The CRVL",
+    early: true,
+    tags: ["JavaScript", "React Native", "Tailwind", "Shopify"],
+    bullets: [
+      "Co-founded a marketing agency that pairs creative strategy with software.",
+      "Built client sites and apps, including maluhialove.com.",
+    ],
+  },
+  {
+    dates: "Aug – Dec 2025",
+    role: "ServiceNow IT Intern",
+    org: "University Tech Solutions, UTSA",
+    orgShort: "UTSA Tech Solutions",
+    early: true,
+    tags: ["ServiceNow", "ITSM"],
+    bullets: [
+      "Gave Tier 1 support to students, faculty, and staff: walk-in, remote, and ticketed.",
+      "Tracked and escalated requests in ServiceNow, cutting wait times by 30%.",
+      "Taught faculty and staff basic troubleshooting so they could fix issues themselves.",
+    ],
+  },
+  {
+    dates: "Jul – Aug 2025",
+    role: "Contract Web Developer",
+    org: "Servco Toyota Leeward",
+    early: true,
+    tags: ["Shopify", "Liquid", "HTML", "CSS"],
+    bullets: [
+      "Built the Servco Leeward merch store on Shopify. Site traffic rose 40% and conversions 22%.",
+      "Made reusable Liquid components for title cards, collection menus, and product displays, so marketing could update content without code.",
+    ],
+  },
+  {
+    dates: "May – Aug 2025",
+    role: "Web Software Developer Intern",
+    roleShort: "Web Developer Intern",
+    org: "TLT, Tomorrow's Leaders Today",
+    orgShort: "TLT",
+    early: true,
+    tags: ["HTML", "CSS", "JavaScript", "Git"],
+    bullets: [
+      "Shipped features and bug fixes with a team of 4 interns in biweekly sprints.",
+      "Reworked the Mentoring at TLT page for clearer navigation.",
+      "Worked with the cybersecurity team so every update met security standards.",
+    ],
+  },
+  {
+    dates: "Feb – Apr 2025",
+    role: "Web Developer",
+    org: "Byrna Leeward",
+    early: true,
+    tags: ["Shopify", "Liquid", "HTML", "CSS"],
+    bullets: ["Built and styled the Shopify theme for byrnaleeward.com in Liquid, HTML, and CSS."],
+  },
+  {
+    dates: "Feb – Apr 2025",
+    role: "Web Developer",
+    org: "MCAV Tarpaulin Printing",
+    orgShort: "MCAV Printing",
+    early: true,
+    tags: ["HTML", "CSS", "JavaScript", "Bootstrap", "Go"],
+    bullets: [
+      "Built and deployed mcavtarpaulinprinting.com, a responsive Bootstrap site.",
+      "Wrote Go scripts that email clients when they submit a form, backed by Google Sheets and Apps Script.",
+    ],
+  },
+  {
+    dates: "Aug 2022 – Jun 2023",
+    role: "Chief Marketing Officer",
+    org: "Virtual Enterprises International (PARA Protection)",
+    orgShort: "Virtual Enterprises",
+    early: true,
+    tags: ["Marketing", "Leadership"],
+    bullets: [
+      "Led marketing for PARA Protection, a student-run virtual bulletproof backpack company.",
+      "Built the brand strategy and ran the customer data analysis behind it.",
+      "Placed 2nd in the 2022-2023 National Business Plan Competition in Florida.",
+    ],
+  },
+  {
+    dates: "Jul – Dec 2022",
+    role: "Cashier, Customer Service",
+    org: "Walmart",
+    early: true,
+    tags: ["Customer Service"],
+    bullets: ["Worked checkout while juggling several tasks at once, and learned to de-escalate with upset customers."],
+  },
 ];
 
 export const STATS = [
   { value: "3.79", label: "GPA", fill: 9, mobile: 4 },
   { value: "DL", label: "Dean's List", fill: 10 },
   { value: "2", label: "Hackathon wins", fill: 2, mobile: 1 },
-  { value: "12", label: "Languages", fill: 10 },
+  { value: "15", label: "Languages", fill: 10 },
 ];
 
 export const ACHIEVEMENTS: [title: string, date: string][] = [
@@ -102,7 +206,7 @@ export const INVENTORY: Record<string, InvItem[]> = {
   Languages: [
     ["TypeScript", "typescript", "Equipped daily.", "Aloha TT, AssetWorks, TAT Trick", 99],
     ["Python", "python", "Equipped daily.", "Thrivent, TAT Trick, Mad Hatter", 92],
-    ["C#", "csharp", "TODO: Enterprise duty.", "Y&L Consulting", 60],
+    ["C#", "csharp", "Enterprise duty.", "Y&L Consulting", 60],
     ["JavaScript", "javascript", "Equipped daily.", "Everywhere", 95],
     ["SQL", "postgresql", "38 tables and counting.", "Aloha TT, Y&L, Thrivent", 85],
     ["PHP", "php", "Legacy slayer.", "Y&L Consulting", 60],
@@ -112,6 +216,9 @@ export const INVENTORY: Record<string, InvItem[]> = {
     ["GDScript", "godotengine", "Main hand for games.", "Undead Presidents", 88],
     ["Bash", "gnubash", "Scripts and deploys.", "All the servers", 72],
     ["VB.NET", "dotnet", "Acquired Sep 2026.", "Y&L Consulting", 45],
+    ["PowerShell", "powershell", "Admin scripts.", "Y&L Consulting", 50],
+    ["Liquid", "shopify", "Shopify themes.", "Servco, Byrna Leeward", 70],
+    ["Go", "go", "Form-to-email scripts.", "MCAV Printing", 40],
   ],
   Frameworks: [
     ["Next.js", "nextdotjs", "App Router believer.", "Aloha TT, this site", 95],
@@ -122,6 +229,10 @@ export const INVENTORY: Record<string, InvItem[]> = {
     ["Tailwind", "tailwindcss", "Strict spacing scale.", "Aloha TT, this site", 90],
     ["Node.js", "nodedotjs", "69 API routes worth.", "Aloha TT", 88],
     ["Dash", "plotly", "Dashboards in 2 weeks.", "Thrivent EDP", 70],
+    ["ASP.NET", "dotnet", ".NET Framework duty.", "Y&L Consulting", 50],
+    ["jQuery", "jquery", "Legacy front ends.", "Y&L, MCAV", 65],
+    ["Bootstrap", "bootstrap", "Fast responsive layouts.", "Y&L, MCAV", 70],
+    ["WordPress", "wordpress", "Legacy CMS wrangler.", "Y&L Consulting", 55],
   ],
   Tools: [
     ["Git", "git", "Commits daily.", "Everything", 95],
@@ -132,6 +243,10 @@ export const INVENTORY: Record<string, InvItem[]> = {
     ["Docker", "docker", "Containers when needed.", "Y&L, Thrivent", 60],
     ["Azure", "microsoftazure", "Modernizing legacy.", "Y&L Consulting", 55],
     ["AWS", "amazonaws", "Hackathon infra.", "TAT Trick", 60],
+    ["Azure DevOps", "azuredevops", "Where the work lives.", "Y&L Consulting", 55],
+    ["Visual Studio", "visualstudio", "VB.NET home base.", "Y&L Consulting", 60],
+    ["Microsoft 365", "microsoftteams", "Entra, Exchange, Teams.", "Y&L Consulting", 65],
+    ["Shopify", "shopify", "Merch stores shipped.", "Servco, Byrna Leeward", 75],
   ],
   Data: [
     ["Databricks", "databricks", "Dash apps and pipelines.", "Thrivent", 80],

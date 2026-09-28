@@ -33,7 +33,7 @@ export const BOOT = [
   "Checking save data... OK",
   "Loading player: ABRAHAM STEVE COLINA",
   "Loading quests: 5 found, 2 active",
-  "Loading inventory: 12 languages",
+  "Loading inventory: 15 languages",
   "Connecting to San Antonio, TX...",
   "Ready.",
 ];

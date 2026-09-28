@@ -9,7 +9,6 @@ export const SLOTS = {
     "Undead Presidents gameplay loop or guitar photo, full-bleed, darkened",
   ),
   heroMobile: img("undead-presidents-gameplay-loop-or-guitar-photo.jpg", "gameplay loop"),
-  avatarPixel: img("pixel-art-avatar-512x512.png", "pixel-art avatar, 512x512"),
   devRoom: [
     img("undead-presidents-build-0-1-2024.png", "Undead Presidents build 0.1, 2024"),
     img("netcode-bloopers-clip.png", "netcode bloopers clip"),

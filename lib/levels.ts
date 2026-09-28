@@ -463,7 +463,7 @@ export const LEVELS: Level[] = [
     caseStudy: {
       lede: "A Thrivent internal tool. Shown blurred.",
       meta: {
-        role: "Associate Software Developer Intern, Thrivent",
+        role: "Associate Software Engineer Intern, Thrivent",
         timeline: "May to Aug 2026",
         stack: "Python · SQL · Databricks · Dash · DAX Studio",
         status: "In use internally",

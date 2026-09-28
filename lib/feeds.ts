@@ -21,7 +21,8 @@ export type SteamData = {
   current?: { name: string; cover?: string; playing: boolean };
   recent: { name: string; hours: number }[];
 };
-export type WeatherData = { tempF: number; desc: string; quip: string };
+export type WeatherIcon = "sun" | "moon" | "partly" | "cloud" | "fog" | "rain" | "snow" | "storm";
+export type WeatherData = { tempF: number; desc: string; icon: WeatherIcon; quip: string };
 
 const REVALIDATE = 600;
 const opts = (init?: RequestInit): RequestInit & { next: { revalidate: number } } => ({
@@ -80,7 +81,7 @@ const MOCKS = {
       { name: "Balatro", hours: 9 },
     ],
   } satisfies SteamData,
-  weather: { tempF: 98, desc: "clear", quip: QUIPS[0] } satisfies WeatherData,
+  weather: { tempF: 98, desc: "clear", icon: "sun", quip: QUIPS[0] } satisfies WeatherData,
 };
 
 /* ----------------------------------------------------------------- GitHub */
@@ -250,20 +251,32 @@ function describe(code: number) {
   if (code <= 67) return "rain";
   if (code <= 77) return "snow";
   if (code <= 82) return "showers";
+  if (code <= 86) return "snow showers";
   return "storms";
+}
+
+function iconFor(code: number, day: boolean): WeatherIcon {
+  if (code === 0) return day ? "sun" : "moon";
+  if (code <= 2) return day ? "partly" : "moon";
+  if (code === 3) return "cloud";
+  if (code <= 48) return "fog";
+  if (code <= 67 || (code >= 80 && code <= 82)) return "rain";
+  if (code <= 77 || code === 85 || code === 86) return "snow";
+  return "storm";
 }
 
 export function getWeather() {
   return settle<WeatherData>("weather", async () => {
     if (MOCK) return MOCKS.weather;
     const { lat, lon, tz } = SITE.location;
-    type W = { current: { temperature_2m: number; weather_code: number } };
+    type W = { current: { temperature_2m: number; weather_code: number; is_day: number } };
     const w = await json<W>(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&temperature_unit=fahrenheit&timezone=${encodeURIComponent(tz)}`,
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,is_day&temperature_unit=fahrenheit&timezone=${encodeURIComponent(tz)}`,
     );
     // Rotate the quip every 10 minutes (one per ISR window).
     const quip = QUIPS[Math.floor(Date.now() / (REVALIDATE * 1000)) % QUIPS.length];
-    return { tempF: Math.round(w.current.temperature_2m), desc: describe(w.current.weather_code), quip };
+    const { temperature_2m, weather_code, is_day } = w.current;
+    return { tempF: Math.round(temperature_2m), desc: describe(weather_code), icon: iconFor(weather_code, is_day === 1), quip };
   });
 }
 

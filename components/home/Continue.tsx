@@ -1,24 +1,10 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
-import { Brackets, SectionHeader, Segs, Slot } from "../ui";
+import { Brackets, SectionHeader, Segs } from "../ui";
 import { STATS } from "@/lib/content";
-import { SLOTS } from "@/lib/slots";
 
 const photoStyle = { filter: "grayscale(1) contrast(1.1)" };
 
 export function Continue() {
-  const [avatar, setAvatar] = useState<"real" | "pixel">("real");
-  const tab = (v: "real" | "pixel", label: string) => {
-    const c = avatar === v ? "var(--bone)" : "var(--dim)";
-    return (
-      <button onClick={() => setAvatar(v)} aria-pressed={avatar === v} className="py-1" style={{ color: c, borderBottom: `1px solid ${c}` }}>
-        {label}
-      </button>
-    );
-  };
-
   return (
     <section id="continue" data-screen-label="Continue" className="mx-auto max-w-[1440px] scroll-mt-12 px-4 py-8 md:px-6 md:py-24">
       <SectionHeader num="01" title="CONTINUE" meta="player profile" className="mb-6 md:mb-12" />
@@ -27,16 +13,8 @@ export function Continue() {
       <div className="hidden grid-cols-[minmax(240px,2fr)_minmax(0,3fr)] gap-12 md:grid">
         <div>
           <div className="relative aspect-square max-w-[420px] overflow-hidden border border-line bg-ink">
-            {avatar === "real" ? (
-              <Image src="/images/pfp.jpg" alt="Steve Colina headshot" fill sizes="420px" className="object-cover" style={photoStyle} />
-            ) : (
-              <Slot slot={SLOTS.avatarPixel} sizes="420px" className="stripes flex size-full items-center justify-center" imgStyle={{ imageRendering: "pixelated" }} />
-            )}
+            <Image src="/images/pfp.jpg" alt="Steve Colina headshot" fill sizes="420px" className="object-cover" style={photoStyle} />
             <Brackets />
-          </div>
-          <div className="mt-3 flex gap-4 font-mono text-[11px] uppercase tracking-[.12em]">
-            {tab("real", "Photo")}
-            {tab("pixel", "Pixel")}
           </div>
         </div>
         <div className="min-w-0">
