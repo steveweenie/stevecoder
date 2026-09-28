@@ -26,7 +26,7 @@ async function dataUri(p: string) {
   return `data:image/jpeg;base64,${(await readFile(p)).toString("base64")}`;
 }
 
-const C = { ink: "#0E0F0C", bone: "#ECE8DF", signal: "#39FF14", dim: "#8A877F" };
+const C = { ink: "#0E0F0C", bone: "#ECE8DF", signal: "#39FF14", signalLight: "#167000", dim: "#8A877F" };
 const mono = { fontFamily: "JetBrains", fontSize: 18, letterSpacing: 2.16, textTransform: "uppercase" as const };
 const stripes = (c: string) => `repeating-linear-gradient(135deg, transparent 0px, transparent 12px, ${c} 12px, ${c} 13px)`;
 
@@ -62,7 +62,7 @@ export async function HomeCard({ light = false }: { light?: boolean }) {
         </div>
         <div style={{ marginTop: 24, fontSize: 32 }}>Software engineer. Game developer. Musician.</div>
       </div>
-      <div style={{ display: "flex", fontFamily: "Departure", fontSize: 20, letterSpacing: 2, color: C.signal }}>PRESS START</div>
+      <div style={{ display: "flex", fontFamily: "Departure", fontSize: 20, letterSpacing: 2, color: light ? C.signalLight : C.signal }}>PRESS START</div>
       {pfp && (
         <div style={{ position: "absolute", right: 64, bottom: 56, width: 180, height: 180, border: "1px solid rgba(236,232,223,.2)", display: "flex" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}

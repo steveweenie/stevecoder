@@ -19,11 +19,12 @@
 [data-theme="light"] {
   --ink: #ece8df;
   --bone: #0e0f0c;
-  --signal: #39ff14;
+  /* Neon green is unreadable on bone; a deep green keeps 5:1 contrast. */
+  --signal: #167000;
   --dim: #5f5d57;
   --line: rgba(14, 15, 12, 0.18);
   --hair: rgba(14, 15, 12, 0.07);
-  --ok: #39ff14;
+  --ok: #167000;
   color-scheme: light;
 }
 
