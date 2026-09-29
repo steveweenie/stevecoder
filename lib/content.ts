@@ -258,17 +258,26 @@ export const INVENTORY: Record<string, InvItem[]> = {
   ],
 };
 
-/** Guestbook icon swatches, in picker order. */
+/** Guestbook avatars as [icon, label], in picker order. Entries store the index, so only append. */
 export const GB_ICONS = [
-  "var(--signal)",
-  "var(--bone)",
-  "var(--dim)",
-  "#0E0F0C",
-  "var(--signal)",
-  "var(--bone)",
-  "var(--dim)",
-  "#0E0F0C",
-];
+  ["playstation", "PlayStation"],
+  ["fortnite", "Fortnite"],
+  ["leagueoflegends", "League of Legends"],
+  ["valorant", "Valorant"],
+  ["counterstrike", "Counter-Strike"],
+  ["dota2", "Dota 2"],
+  ["undertale", "Undertale"],
+  ["roblox", "Roblox"],
+  ["xbox", "Xbox"],
+  ["nintendoswitch", "Nintendo Switch"],
+  ["nintendogamecube", "GameCube"],
+  ["sega", "Sega"],
+  ["atari", "Atari"],
+  ["pubg", "PUBG"],
+  ["osu", "osu!"],
+  ["steamdeck", "Steam Deck"],
+  ["retroarch", "RetroArch"],
+] as const;
 
 export type GuestEntry = { id: string; tag: string; msg: string; icon: number; createdAt: number };
 

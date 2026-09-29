@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SectionHeader } from "../ui";
+import { cx, Icon, SectionHeader } from "../ui";
 import { GB_ICONS, type GuestEntry } from "@/lib/content";
 
 type State = "idle" | "submitting" | "submitted" | "error";
@@ -48,7 +48,7 @@ export function Guestbook({ entries }: { entries: GuestEntry[] }) {
 
   return (
     <section id="guestbook" data-screen-label="Guestbook" className="mx-auto max-w-[1440px] scroll-mt-12 px-4 py-8 md:px-6 md:py-24">
-      <SectionHeader num="07" title="HIGH SCORES" meta="guestbook" className="mb-6" />
+      <SectionHeader num="08" title="HIGH SCORES" meta="guestbook" className="mb-6" />
       <div className="grid gap-12 md:grid-cols-[minmax(0,3fr)_minmax(280px,2fr)]">
         <ol className="m-0 list-none p-0 font-mono text-[13px]">
           {entries.length === 0 && <li className="py-3 text-dim">No scores yet. Be player one.</li>}
@@ -60,7 +60,7 @@ export function Guestbook({ entries }: { entries: GuestEntry[] }) {
               <span className="font-pixel" style={{ color: i === 0 ? "var(--signal)" : "var(--dim)" }}>
                 {i + 1}
               </span>
-              <span className="inline-block size-4" style={{ background: GB_ICONS[s.icon] ?? GB_ICONS[0] }} aria-hidden="true" />
+              <Icon name={(GB_ICONS[s.icon] ?? GB_ICONS[0])[0]} size={16} className={i === 0 ? "text-signal" : "text-bone"} />
               <span className="font-pixel text-[12px]">{s.tag}</span>
               <span className="min-w-0 truncate font-sans text-[15px]">{s.msg}</span>
               <span className="hidden text-[11px] text-dim md:inline">{date(s.createdAt)}</span>
@@ -97,18 +97,23 @@ export function Guestbook({ entries }: { entries: GuestEntry[] }) {
           </label>
           <div className={label}>
             <span id="gb-icon">Pick icon</span>
-            <div className="flex gap-2" role="radiogroup" aria-labelledby="gb-icon">
-              {GB_ICONS.map((bg, i) => (
+            <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby="gb-icon">
+              {GB_ICONS.map(([name, game], i) => (
                 <button
                   key={i}
                   type="button"
                   role="radio"
                   aria-checked={icon === i}
-                  aria-label={`Icon ${i + 1}`}
+                  aria-label={game}
+                  title={game}
                   onClick={() => setIcon(i)}
-                  className="size-7 border-2 max-md:size-9"
-                  style={{ background: bg, borderColor: icon === i ? "var(--signal)" : "transparent" }}
-                />
+                  className={cx(
+                    "grid size-7 place-items-center border max-md:size-9",
+                    icon === i ? "border-signal text-signal" : "border-line text-dim hover:text-bone",
+                  )}
+                >
+                  <Icon name={name} size={16} />
+                </button>
               ))}
             </div>
           </div>
