@@ -1,17 +1,15 @@
 /**
  * Level Select + case study data.
  *
- * Undead Presidents copy is final (from the design file). Everything else is
- * pulled from the Quest Log, Level Select, and resume. Any copy that was
- * invented is prefixed with "TODO:" so it is impossible to miss before launch.
- *
- * Image slots: every `src` points at /public/images. Placeholder files are
- * transparent PNGs, so the labeled dashed box underneath shows through.
- * Drop a real image at the same path (or change `src`) and it takes over.
+ * Case studies are deliberately short: a lede, a paragraph or two, a few
+ * photos, and the headline numbers. Every `src` points at /public/images;
+ * `label` doubles as the image's alt text.
  */
 
 export type Slot = { src: string; label: string };
-export type LevelType = "Web" | "Mobile" | "Games" | "Data" | "Design";
+/** Gallery image with intrinsic size, so the masonry grid keeps its aspect. */
+export type Shot = Slot & { w: number; h: number };
+export type LevelType = "Web" | "Mobile" | "Games" | "Design";
 
 export type Level = {
   slug: string;
@@ -40,21 +38,19 @@ export type Level = {
   caseStudy: CaseStudy;
 };
 
-export type Boss = { name: string; hp: number; status: string; text: string };
-
 export type CaseStudy = {
   lede: string;
   meta: { role: string; timeline: string; stack: string; status: string; statusOk?: boolean };
   hero: Slot;
-  problem: { lead: string; body: string };
-  architecture: { diagram: Slot; bullets: string[]; code?: { comment: string; line?: string } };
-  bosses: Boss[];
-  gallery: Slot[];
+  about: string[];
+  /** YouTube video IDs. */
+  videos?: { id: string; title: string }[];
+  gallery: Shot[];
   results: { v: string; k: string; signal?: boolean }[];
-  outro: string;
 };
 
-const img = (file: string, label: string): Slot => ({ src: `/images/${file}`, label: `insert: ${label}` });
+const img = (file: string, label: string): Slot => ({ src: `/images/${file}`, label });
+const shot = (file: string, label: string, w: number, h: number): Shot => ({ ...img(file, label), w, h });
 
 export const LEVELS: Level[] = [
   {
@@ -80,13 +76,8 @@ export const LEVELS: Level[] = [
       href: "https://store.steampowered.com/app/3517560/Undead_Presidents",
       hot: true,
     },
-    // TODO: Source link. Pointing at your GitHub profile until you pick a repo.
-    source: "https://github.com/steveweenie",
-    media: img(
-      "undead-presidents-gameplay-clip-or-trailer-1920x1080.jpg",
-      "gameplay clip or trailer 1920x1080 + Steam capsule art 616x353",
-    ),
-    mobileMedia: img("undead-presidents-gameplay-1920x1080.jpg", "Undead Presidents gameplay 1920x1080"),
+    media: img("undead-presidents-card-split-screen-1920x1080.jpg", "Undead Presidents four-player split-screen gameplay"),
+    mobileMedia: img("undead-presidents-card-mobile-wave-1-1920x1080.jpg", "Undead Presidents gameplay, wave 1"),
     caseStudy: {
       lede: "A networked split-screen multiplayer survival shooter, coming to Steam.",
       meta: {
@@ -96,54 +87,16 @@ export const LEVELS: Level[] = [
         status: "Wishlist live",
         statusOk: true,
       },
-      hero: img(
-        "undead-presidents-hero-gameplay-still-1920x1080.jpg",
-        "hero gameplay still or looping clip, 1920x1080, darkened 40%",
-      ),
-      problem: {
-        lead: "Couch co-op is fun until someone's friend lives two states away. Most split-screen games force a choice: local or online. I wanted both at once.",
-        body: "Two players on one screen should be able to join two more on another machine, and nobody should need a dedicated server. That means peer-to-peer, host migration, and a lot of edge cases.",
-      },
-      architecture: {
-        diagram: img(
-          "undead-presidents-netcode-diagram.png",
-          "netcode diagram (host, peers, local split-screen inputs)",
-        ),
-        bullets: [
-          "Steamworks P2P transport with one host authority and deterministic client prediction for movement.",
-          "Local split-screen players are multiplexed as sub-clients, so the host sees 8 logical players from up to 4 machines.",
-          "Host migration snapshots the world state every 2 seconds. A dropped host costs under a second of rollback.",
-        ],
-        code: {
-          comment: "# insert: short GDScript snippet, e.g. input multiplexing or snapshot serialization",
-        },
-      },
-      bosses: [
-        {
-          name: "DESYNC DRAGON",
-          hp: 0,
-          status: "defeated",
-          text: "Physics diverged across peers after ~40 seconds. Fixed by moving to fixed-timestep simulation and quantizing input floats to int16 before send.",
-        },
-        {
-          name: "THE HOST MIGRATOR",
-          hp: 2,
-          status: "defeated · 2 retries",
-          text: "When the host quit mid-wave, clients froze. Periodic world snapshots plus a leader election by lowest Steam ID made handoff automatic.",
-        },
-        {
-          name: "SPLIT-SCREEN INPUT HYDRA",
-          hp: 6,
-          status: "in progress",
-          text: "Four local controllers plus remote peers meant device IDs collided. A seat-based input map now owns the mapping; hot-plug is still flaky.",
-        },
+      hero: img("undead-presidents-hero-corridor-1920x1080.jpg", "Undead Presidents corridor gameplay"),
+      about: [
+        "Couch co-op is fun until someone's friend lives two states away. Most split-screen games force a choice: local or online. I wanted both at once.",
+        "Two players on one screen can join two more on another machine, with no dedicated server. Up to 8 players over Steam P2P, with host migration when someone drops.",
       ],
       gallery: [
-        img("undead-presidents-4-player-split-screen-1920x1080.jpg", "4-player split-screen screenshot 1920x1080"),
-        img("undead-presidents-steam-capsule-616x353.jpg", "Steam capsule 616x353"),
-        img("undead-presidents-character-sprite-sheet.png", "character sprite sheet"),
-        img("undead-presidents-boss-encounter.png", "boss encounter gif"),
-        img("undead-presidents-showcase-booth-photo.png", "showcase booth photo"),
+        shot("undead-presidents-trailer-meanwhile-1920x1080.jpg", "Trailer title card: meanwhile at a classified government facility", 1920, 1080),
+        shot("undead-presidents-split-screen-4p-1920x1080.jpg", "Four-player split-screen", 1920, 1080),
+        shot("undead-presidents-card-mobile-wave-1-1920x1080.jpg", "Wave 1", 1920, 1080),
+        shot("undead-presidents-gameplay-loop-or-guitar-photo.jpg", "Split-screen title screen", 1210, 680),
       ],
       results: [
         { v: "8P", k: "P2P multiplayer" },
@@ -151,8 +104,6 @@ export const LEVELS: Level[] = [
         { v: "<1s", k: "host migration" },
         { v: "???", k: "wishlists (live count)", signal: true },
       ],
-      outro:
-        "Next up: Steam Next Fest demo build, controller remapping, and a proper trailer. Wishlisting helps more than you'd think.",
     },
   },
   {
@@ -174,13 +125,7 @@ export const LEVELS: Level[] = [
     ],
     stack: "Next.js · TypeScript · Supabase · Stripe · Clerk · Vercel",
     primary: { label: "Play (live site)", mobileLabel: "Live site", href: "https://alohatabletennis.org" },
-    // TODO: Source link (repo may be private). Pointing at your GitHub profile for now.
-    source: "https://github.com/steveweenie",
-    media: img(
-      "alohatabletennis-org-homepage-desktop-1600x1000.png",
-      "screenshot, alohatabletennis.org homepage, desktop, 1600x1000",
-    ),
-    mobileMedia: img("alohatabletennis-org-mobile-screenshot.png", "alohatabletennis.org mobile screenshot"),
+    media: img("aloha-table-tennis-landing-hero.jpg", "alohatabletennis.org homepage"),
     caseStudy: {
       lede: "A full-stack club platform with booking, tournaments, Stripe billing, and 16 languages.",
       meta: {
@@ -190,46 +135,15 @@ export const LEVELS: Level[] = [
         status: "Live",
         statusOk: true,
       },
-      hero: img("aloha-table-tennis-hero-1920x1080.png", "alohatabletennis.org hero screenshot, 1920x1080, darkened 40%"),
-      problem: {
-        lead: "TODO: One or two sentences on what the club was running on before this, and why it broke.",
-        body: "A 501(c)(3) club with 200+ users and 50 to 70 paying monthly members needed one platform for booking, tournaments, and billing. It had to take real money and never double-book a table or a coaching slot.",
-      },
-      architecture: {
-        diagram: img("aloha-table-tennis-system-diagram.png", "system diagram (Next.js, Supabase, Stripe, Clerk)"),
-        bullets: [
-          "Next.js App Router on Vercel: 43 pages and 69 API route handlers, gated by CI on every push.",
-          "A 38-table Postgres schema on Supabase across 93 migrations, with default-deny row-level security.",
-          "Clerk for accounts, Stripe for billing, and a 16-language PWA with web push and offline support.",
-        ],
-        code: { comment: "// insert: short TypeScript snippet, e.g. the idempotent Stripe webhook handler" },
-      },
-      bosses: [
-        {
-          name: "TODO: THE DOUBLE BOOKER",
-          hp: 0,
-          status: "defeated",
-          text: "Two members could grab the last tournament seat or coaching slot at the same moment. Postgres advisory locks now serialize those writes, so a seat is only sold once.",
-        },
-        {
-          name: "TODO: WEBHOOK REPLAY WRAITH",
-          hp: 0,
-          status: "defeated",
-          text: "Stripe retries events, and a replayed payment could charge a member twice. Idempotency keys across all 10 webhook event types make every replay a no-op.",
-        },
-        {
-          name: "TODO: THE LEDGER LICH",
-          hp: 0,
-          status: "defeated",
-          text: "Money records can't be edited after the fact. Append-only financial ledgers plus default-deny row-level security mean nothing is readable or writable unless a policy says so.",
-        },
+      hero: img("aloha-table-tennis-hero-photo.jpg", "Open play at the Aloha Table Tennis club"),
+      about: [
+        "A 501(c)(3) club in Honolulu with 200+ users and 50 to 70 paying monthly members needed one place for booking, tournaments, and billing. It had to take real money and never double-book a table or a coaching slot.",
+        "I built it on Next.js and Supabase: 43 pages, 69 API routes, Stripe billing with idempotent webhooks, and a 16-language PWA.",
       ],
       gallery: [
-        img("aloha-table-tennis-homepage-1920x1080.png", "alohatabletennis.org homepage, desktop 1920x1080"),
-        img("aloha-table-tennis-pwa-mobile.png", "PWA on mobile"),
-        img("aloha-table-tennis-booking-flow.png", "booking flow"),
-        img("aloha-table-tennis-tournament-bracket.png", "tournament bracket"),
-        img("aloha-table-tennis-billing.png", "membership billing screen"),
+        shot("aloha-table-tennis-member-dashboard.jpg", "Member dashboard: sign-in sheet, door access, refreshments, and player directory", 1440, 1242),
+        shot("aloha-table-tennis-landing-show-up.jpg", "Homepage stats and club story", 1417, 720),
+        shot("aloha-table-tennis-landing-players.jpg", "Player directory on the homepage", 1417, 800),
       ],
       results: [
         { v: "43", k: "pages" },
@@ -237,7 +151,6 @@ export const LEVELS: Level[] = [
         { v: "16", k: "languages" },
         { v: "200+", k: "users" },
       ],
-      outro: "TODO: What's next for the platform, in one or two sentences.",
     },
   },
   {
@@ -246,72 +159,44 @@ export const LEVELS: Level[] = [
     rarity: "EPIC",
     title: "TAT Trick",
     display: ["TAT", "TRICK"],
-    type: "Data",
+    type: "Web",
     year: "2026",
     featured: true,
-    pitch: "1st of 26 teams at Thrivent Hackapalooza '26: a gamified leaderboard, impact metrics, and a RAG chatbot.",
+    pitch: "1st of 26 teams at Thrivent Hackapalooza '26: an event heatmap, an AI chatbot, and gamified rewards for Thrivent Action Teams.",
     desc: "1st of 26 teams at Thrivent Hackapalooza '26.",
     stats: [
       { v: "1st", k: "of 26 teams" },
-      { v: "24h", k: "build time" },
+      { v: "13", k: "person team" },
     ],
-    stack: "React · FastAPI · AWS",
-    // TODO: Demo link. No public demo URL yet, so this points at the case study.
-    primary: { label: "Play demo", mobileLabel: "Demo", href: "/levels/tat-trick" },
-    // TODO: Source link.
-    source: "https://github.com/steveweenie",
-    media: img("tat-trick-leaderboard-1600x1000.png", "screenshot, TAT Trick leaderboard, 1600x1000"),
+    stack: "Figma · Leaflet · AWS Bedrock · iMovie",
+    media: img("tat-trick-group.jpg", "Hackapalooza '26 participants"),
     caseStudy: {
-      lede: "1st of 26 teams at Thrivent Hackapalooza '26: a gamified leaderboard, impact metrics, and a RAG chatbot.",
+      lede: "1st of 26 teams at Thrivent Hackapalooza '26: three ways to get more members leading Thrivent Action Teams.",
       meta: {
-        role: "Frontend, React and TypeScript",
-        timeline: "Jul 2026",
-        stack: "React · TypeScript · FastAPI · AWS",
+        role: "Gamification team, demo video editor",
+        timeline: "Jun to Jul 2026",
+        stack: "Figma · Leaflet · AWS Bedrock · iMovie",
         status: "1st of 26 teams",
         statusOk: true,
       },
-      hero: img("tat-trick-hero-1920x1080.png", "TAT Trick leaderboard hero, 1920x1080, darkened 40%"),
-      problem: {
-        lead: "TODO: The problem statement the hackathon handed you, in your voice.",
-        body: "Hackapalooza '26 was Thrivent's internal hackathon: 26 teams and 122 participants. We advanced from the top 5 and took 1st.",
-      },
-      architecture: {
-        diagram: img("tat-trick-architecture-diagram.png", "architecture diagram (React, FastAPI, RAG chatbot, AWS)"),
-        bullets: [
-          "A React and TypeScript frontend for the gamified leaderboard and the impact metrics page.",
-          "Live Action Teams data wired in through a Python and FastAPI layer.",
-          "A RAG-based AI chatbot served through the same FastAPI layer.",
-        ],
-        code: { comment: "// insert: short snippet, e.g. the leaderboard scoring or the chatbot fetch" },
-      },
-      bosses: [
-        {
-          name: "TODO: THE CLOCK",
-          hp: 0,
-          status: "defeated",
-          text: "TODO: The hardest problem you hit during the build and how you beat it.",
-        },
-        {
-          name: "TODO: THE DEMO GOD",
-          hp: 0,
-          status: "defeated",
-          text: "TODO: What almost broke during judging, and how you kept it running.",
-        },
+      hero: img("tat-trick-stage.jpg", "The team on the main stage"),
+      about: [
+        "Thirteen interns, one idea: make Thrivent Action Teams easier to start and more fun to keep doing. We split into three sub-teams and built all three at once: a national heatmap of events, a RAG chatbot on AWS Bedrock that recommends events, and a gamification layer. Three features, one goal: a hat trick.",
+        "I was on gamification, designing badges and an Action Points rewards store in Figma, mocked to look native to the real site. I also acted in the opening skit and cut the demo video in iMovie, which got a perfect score in preliminary judging and put us in the top 5. We took 1st on the main stage.",
       ],
       gallery: [
-        img("tat-trick-leaderboard-1920x1080.png", "leaderboard screenshot 1920x1080"),
-        img("tat-trick-chatbot.png", "RAG chatbot screenshot"),
-        img("tat-trick-impact-metrics.png", "impact metrics page"),
-        img("tat-trick-team-photo.png", "team photo at Hackapalooza"),
-        img("tat-trick-winners-slide.png", "winners announcement"),
+        shot("tat-trick-group.jpg", "Hackapalooza '26 participants", 2400, 1800),
+        shot("tat-trick-skit.jpg", "Filming the opening skit for our demo video", 1800, 2400),
+        shot("tat-trick-pitch.jpg", "Presenting in the final round", 800, 1066),
+        shot("tat-trick-build-room.jpg", "Build day in the conference room", 800, 598),
+        shot("tat-trick-war-room.jpg", "Heads down on build day", 800, 1068),
       ],
       results: [
         { v: "1st", k: "of 26 teams" },
         { v: "122", k: "participants" },
-        { v: "24h", k: "build time" },
-        { v: "Top 5", k: "finalist round" },
+        { v: "3", k: "features shipped" },
+        { v: "100%", k: "prelim video score" },
       ],
-      outro: "TODO: What happened to TAT Trick after the win.",
     },
   },
   {
@@ -323,59 +208,42 @@ export const LEVELS: Level[] = [
     type: "Mobile",
     year: "2025",
     featured: false,
-    pitch: "1st Place at Code Quantum 2025. Predicts which character is speaking from dialogue.",
-    desc: "1st Place at Code Quantum 2025. Predicts which character is speaking from dialogue.",
+    pitch: "1st Place at CodeQuantum 2025. Predicts which Alice in Wonderland character is speaking from a line of dialogue.",
+    desc: "1st Place at CodeQuantum 2025. Predicts which character is speaking from dialogue.",
     stats: [
-      { v: "1st", k: "Code Quantum 2025" },
-      { v: "4", k: "person team" },
+      { v: "1st", k: "CodeQuantum 2025" },
+      { v: "51%", k: "SVM accuracy" },
     ],
-    stack: "React Native · Python · NLP",
+    stack: "React · Flask · scikit-learn · NLP",
     primary: { label: "Devpost", href: "https://devpost.com/software/mad-hatter-s-whisper" },
-    media: img("mad-hatters-whisper-app-screen-1170x2532.png", "Mad Hatter's Whisper app screen 1170x2532"),
+    source: "https://github.com/steveweenie/mad-hatters-whisper-nlp-ml",
+    media: img("mad-hatters-whisper-title-slide.jpg", "Mad Hatter's Whisper title slide"),
     caseStudy: {
-      lede: "1st Place at Code Quantum 2025. A mobile app that predicts which character is speaking from dialogue.",
+      lede: "1st Place at CodeQuantum 2025. An app that guesses which Alice in Wonderland character is speaking from a line of dialogue.",
       meta: {
-        role: "TODO: Your role on the 4-person team",
-        timeline: "Mar 2025",
-        stack: "React Native · Expo · Flask · SVM · Naive Bayes · TF-IDF",
+        role: "Frontend, React",
+        timeline: "Mar 2025 · 10 hours",
+        stack: "React · Flask · Python · scikit-learn · Pandas · BeautifulSoup",
         status: "1st Place",
         statusOk: true,
       },
-      hero: img("mad-hatters-whisper-hero-1920x1080.png", "Mad Hatter's Whisper hero, 1920x1080, darkened 40%"),
-      problem: {
-        lead: "TODO: The hook. Why guess who's talking from a line of dialogue?",
-        body: "Built in 12 hours at Code Quantum 2025 at UTSA with a 4-person cross-functional team. We took 1st place.",
-      },
-      architecture: {
-        diagram: img("mad-hatters-whisper-model-diagram.png", "model pipeline diagram (dialogue, TF-IDF, SVM + Naive Bayes, app)"),
-        bullets: [
-          "A React Native and Expo app that returns character predictions in real time.",
-          "A Flask API serving SVM and Naive Bayes classifiers.",
-          "TF-IDF features over dialogue lines feed both models.",
-        ],
-        code: { comment: "# insert: short Python snippet, e.g. the TF-IDF + SVM pipeline" },
-      },
-      bosses: [
-        {
-          name: "TODO: THE CHESHIRE CLASSIFIER",
-          hp: 0,
-          status: "defeated",
-          text: "TODO: The hardest modeling or app problem and how the team beat it.",
-        },
+      hero: img("mad-hatters-whisper-code-quantum-team.jpg", "The team at CodeQuantum 2025"),
+      about: [
+        "CodeQuantum '25 at UTSA had an Alice in Wonderland theme. Every character talks in a wildly different way, so we asked: could a model tell who's speaking?",
+        "We scraped the dialogue with BeautifulSoup, tested SVM, Naive Bayes, and Logistic Regression in scikit-learn behind a Flask API, and I built the React frontend. SVM won at 51% accuracy, and so did we.",
       ],
       gallery: [
-        img("mad-hatters-whisper-app-1170x2532.png", "app screen 1170x2532"),
-        img("mad-hatters-whisper-code-quantum-team.jpg", "Code Quantum 2025 team photo"),
-        img("mad-hatters-whisper-prediction.png", "prediction result screen"),
-        img("mad-hatters-whisper-model-accuracy.png", "model accuracy chart"),
-        img("mad-hatters-whisper-demo.png", "demo on stage"),
+        shot("mad-hatters-whisper-on-stage.jpg", "Presenting at CodeQuantum 2025", 800, 599),
+        shot("mad-hatters-whisper-app.jpg", "The app: type a line, predict the character", 389, 845),
+        shot("mad-hatters-whisper-dialogue.jpg", "Sample training dialogue", 1370, 422),
+        shot("mad-hatters-whisper-title-slide.jpg", "Title slide from our pitch deck", 1920, 1083),
       ],
       results: [
-        { v: "1st", k: "Code Quantum 2025" },
-        { v: "2", k: "models (SVM, NB)" },
-        { v: "4", k: "person team" },
+        { v: "1st", k: "CodeQuantum 2025" },
+        { v: "51%", k: "SVM accuracy" },
+        { v: "3", k: "models tested" },
+        { v: "10h", k: "build time" },
       ],
-      outro: "TODO: One closing line.",
     },
   },
   {
@@ -395,44 +263,26 @@ export const LEVELS: Level[] = [
     ],
     stack: "Figma · 60 tokens · 135 components",
     primary: { label: "Visit site", href: "https://emptyshellcasing.com" },
-    media: img("emptyshellcasing-homepage-1600x1000.png", "emptyshellcasing.com homepage 1600x1000"),
+    media: img("emptyshellcasing-homepage.jpg", "emptyshellcasing.com homepage"),
     caseStudy: {
       lede: "The official site for an Atlantic Records artist, and the design system behind it.",
       meta: {
         role: "Contract Web Designer, Atlantic Records",
         timeline: "Aug to Sep 2026",
         stack: "Figma · Variables · Variants · Auto Layout · Dev Mode",
-        status: "Shipped",
+        status: "Live",
         statusOk: true,
       },
-      hero: img("emptyshellcasing-hero-1920x1080.png", "emptyshellcasing.com hero, 1920x1080, darkened 40%"),
-      problem: {
-        lead: "TODO: The brief from Atlantic, in one or two sentences.",
-        body: "I owned visual direction through a Figma handoff consumed by Atlantic's in-house dev team, across 24 versioned releases.",
-      },
-      architecture: {
-        diagram: img("emptyshellcasing-token-map.png", "token map (primitives to semantic tokens to CSS variables)"),
-        bullets: [
-          "A two-layer, 60-token design system authored as Figma variables.",
-          "Every token maps 1:1 to a CSS custom property, so Dev Mode output matched the stylesheet exactly.",
-          "135 root components with states as variants, and 15 frames across 3 breakpoints.",
-        ],
-        code: { comment: "/* insert: a few lines of the generated CSS variables */" },
-      },
-      bosses: [
-        {
-          name: "TODO: THE DRIFT",
-          hp: 0,
-          status: "defeated",
-          text: "TODO: Where design and code started to drift apart, and how the 1:1 token mapping fixed it.",
-        },
+      hero: img("emptyshellcasing-homepage.jpg", "emptyshellcasing.com homepage"),
+      about: [
+        "I owned visual direction for Empty Shell Casing's official site, handed off in Figma to Atlantic's in-house dev team across 24 versioned releases.",
+        "Underneath is a 60-token design system that maps 1:1 to CSS variables, plus 135 components across 3 breakpoints.",
       ],
       gallery: [
-        img("emptyshellcasing-homepage-1920x1080.png", "homepage desktop 1920x1080"),
-        img("emptyshellcasing-mobile.png", "mobile breakpoint"),
-        img("emptyshellcasing-tokens.png", "Figma variables panel"),
-        img("emptyshellcasing-components.png", "component sheet"),
-        img("emptyshellcasing-breakpoints.png", "3 breakpoints side by side"),
+        shot("emptyshellcasing-catalog.jpg", "Merch catalog", 2000, 1250),
+        shot("emptyshellcasing-interview.jpg", "Interview page", 2000, 1150),
+        shot("emptyshellcasing-gallery.jpg", "Photo gallery lightbox", 1334, 889),
+        shot("emptyshellcasing-gallery-2.jpg", "Photo gallery lightbox", 1334, 889),
       ],
       results: [
         { v: "60", k: "tokens" },
@@ -440,73 +290,54 @@ export const LEVELS: Level[] = [
         { v: "24", k: "versioned releases" },
         { v: "3", k: "breakpoints" },
       ],
-      outro: "TODO: One closing line.",
     },
   },
   {
-    slug: "edp-job-monitor",
+    slug: "silvesbro",
     num: "LEVEL 06",
-    rarity: "RARE",
-    title: "EDP Job Monitor",
-    display: ["EDP JOB", "MONITOR"],
-    type: "Data",
-    year: "2026",
+    rarity: "UNCOMMON",
+    title: "SilvesBro",
+    display: ["SILVES", "BRO"],
+    type: "Mobile",
+    year: "2024",
     featured: false,
-    pitch: "A Thrivent internal tool. Shown blurred.",
-    desc: "A Thrivent internal tool. Shown blurred.",
+    pitch: "A study-buddy mobile game starring our professor, with a pomodoro timer, to-do list, happiness meter, and a wardrobe of hats.",
+    desc: "A study-buddy mobile game starring our professor.",
     stats: [
-      { v: "2wk", k: "to MVP" },
-      { v: "30+", k: "users" },
+      { v: "4", k: "features" },
+      { v: "2", k: "devlogs" },
     ],
-    stack: "Databricks · Dash · Python",
-    media: img("edp-job-monitor-abstract-or-blurred-dashboard.png", "abstract or blurred dashboard visual"),
+    stack: "Java · Android Studio · XML",
+    primary: { label: "Watch devlog", href: "https://youtu.be/0Co-MnAy-rE" },
+    media: img("silvesbro-devlog-thumbnail.jpg", "SilvesBro running on a phone"),
     caseStudy: {
-      lede: "A Thrivent internal tool. Shown blurred.",
+      lede: "His tests were too hard, so we put him in a mobile game.",
       meta: {
-        role: "Associate Software Engineer Intern, Thrivent",
-        timeline: "May to Aug 2026",
-        stack: "Python · SQL · Databricks · Dash · DAX Studio",
-        status: "In use internally",
+        role: "Developer and programmer",
+        timeline: "One semester",
+        stack: "Java · Android Studio · XML · Photoshop · Premiere Pro · Adobe XD",
+        status: "Shipped",
         statusOk: true,
       },
-      hero: img("edp-job-monitor-hero-blurred.png", "abstract or blurred dashboard visual, 1920x1080"),
-      problem: {
-        lead: "TODO: Why the old Power BI job monitor wasn't cutting it.",
-        body: "The legacy EDP job monitoring dashboard lived in Power BI. I migrated it to a custom Databricks Dash app.",
-      },
-      architecture: {
-        diagram: img("edp-job-monitor-diagram.png", "abstract pipeline diagram, no internal names"),
-        bullets: [
-          "Reverse-engineered the existing SQL with DAX Studio before rewriting anything.",
-          "Rebuilt the dashboard as a Databricks Dash application.",
-          "Shipped the MVP in 2 weeks, then iterated to 30+ users across every DEME team.",
-        ],
-      },
-      bosses: [
-        {
-          name: "TODO: THE BLACK BOX",
-          hp: 0,
-          status: "defeated",
-          text: "The old dashboard's logic lived inside Power BI. Reverse-engineering its SQL with DAX Studio made the rewrite possible.",
-        },
+      hero: img("silvesbro-devlog-thumbnail.jpg", "SilvesBro running on a phone"),
+      about: [
+        "A semester-long team project: a study buddy you keep happy by actually studying. I built a dynamic UI with custom animations and sound effects, plus the pomodoro timer, happiness meter, to-do list, and wardrobe.",
       ],
-      gallery: [
-        img("edp-job-monitor-blurred-1.png", "blurred dashboard view"),
-        img("edp-job-monitor-blurred-2.png", "blurred job detail"),
-        img("edp-job-monitor-abstract-1.png", "abstract visual"),
-        img("edp-job-monitor-abstract-2.png", "abstract visual"),
-        img("edp-job-monitor-abstract-3.png", "abstract visual"),
+      videos: [
+        { id: "0Co-MnAy-rE", title: "It Took A Whole Semester To Make This" },
+        { id: "sz1D9qEB0E4", title: "His Tests Are TOO HARD, So We Put Him In a Mobile Game" },
       ],
+      gallery: [shot("silvesbro-screens.jpg", "Main, settings, wardrobe, timer, and to-do list screens", 1920, 1280)],
       results: [
-        { v: "2wk", k: "to MVP" },
-        { v: "30+", k: "users" },
+        { v: "4", k: "features" },
+        { v: "2", k: "devlogs" },
+        { v: "1", k: "semester" },
       ],
-      outro: "TODO: One closing line.",
     },
   },
 ];
 
-export const FILTERS = ["All", "Web", "Mobile", "Games", "Data", "Design"] as const;
+export const FILTERS = ["All", "Web", "Mobile", "Games", "Design"] as const;
 
 export function getLevel(slug: string) {
   return LEVELS.find((l) => l.slug === slug);
@@ -525,5 +356,5 @@ export const LEVEL_ALIASES: Record<string, string> = {
   "tat-trick": "tat-trick",
   "mad-hatters-whisper": "mad-hatters-whisper",
   emptyshellcasing: "emptyshellcasing",
-  "edp-job-monitor": "edp-job-monitor",
+  silvesbro: "silvesbro",
 };

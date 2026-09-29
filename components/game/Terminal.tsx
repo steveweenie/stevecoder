@@ -58,7 +58,7 @@ export function Terminal({ onClose }: { onClose: () => void }) {
         say('Abraham Steve Colina. CS @ UTSA \'27. Full stack by day, multiplayer games by night. Music in between.');
         break;
       case "ls":
-        say("undead-presidents/  aloha-tt/  tat-trick/  mad-hatters-whisper/  emptyshellcasing/  edp-job-monitor/");
+        say("undead-presidents/  aloha-tt/  tat-trick/  mad-hatters-whisper/  emptyshellcasing/  silvesbro/");
         break;
       case "open": {
         if (!arg) {

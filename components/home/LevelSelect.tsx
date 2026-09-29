@@ -29,17 +29,17 @@ const btn = "border px-4 py-3";
 function Featured({ L, i }: { L: Level; i: number }) {
   const hot = L.primary?.hot;
   return (
-    <article className="border-t border-line md:grid md:min-h-[70vh] md:grid-cols-2 md:border-t-0 md:border-b">
+    <article className="border-t border-line md:grid md:grid-cols-2 md:items-center md:border-t-0 md:border-b">
       <Slot
         slot={L.media}
         sizes="(max-width: 767px) 100vw, 50vw"
-        className="stripes flex items-center justify-center p-4 max-md:hidden md:min-h-80 md:border-r md:border-line md:p-6"
+        className="stripes flex aspect-video items-center justify-center p-4 max-md:hidden md:border-r md:border-line md:p-6"
         style={{ order: i % 2 }}
       />
       <Slot
         slot={L.mobileMedia ?? L.media}
         sizes="100vw"
-        className="stripes flex aspect-[16/10] items-center justify-center p-4 md:hidden"
+        className="stripes flex aspect-video items-center justify-center p-4 md:hidden"
       >
         <span className="meta text-center text-[9px]" aria-hidden="true">
           {(L.mobileMedia ?? L.media).label}

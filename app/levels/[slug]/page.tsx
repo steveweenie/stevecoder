@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Progress } from "@/components/case/Progress";
 import { Go } from "@/components/home/LevelSelect";
-import { Segs, Slot } from "@/components/ui";
+import { Slot } from "@/components/ui";
 import { getLevel, LEVELS, nextLevel } from "@/lib/levels";
 
 export const dynamicParams = false;
@@ -22,14 +23,6 @@ export async function generateMetadata({ params }: PageProps<"/levels/[slug]">):
   };
 }
 
-const CHAPTERS = [
-  ["01", "The problem"],
-  ["02", "Architecture"],
-  ["03", "Boss fights"],
-  ["04", "Gallery"],
-  ["05", "Results"],
-] as const;
-
 function ChapterHead({ num, title, meta }: { num: string; title: string; meta?: string }) {
   return (
     <div className="font-pixel mb-6 flex gap-4 text-[12px] tracking-[.08em]">
@@ -40,13 +33,6 @@ function ChapterHead({ num, title, meta }: { num: string; title: string; meta?: 
   );
 }
 
-const tile = "flex items-center justify-center bg-ink p-4 text-center";
-const tileLabel = (label: string) => (
-  <span className="meta text-[10px]" aria-hidden="true">
-    {label}
-  </span>
-);
-
 export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">) {
   const L = getLevel((await params).slug);
   if (!L) notFound();
@@ -54,7 +40,6 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
   const next = nextLevel(L.slug);
   const index = LEVELS.indexOf(L) + 1;
   const hot = L.primary?.hot;
-  const g = cs.gallery;
 
   return (
     <div className="min-h-screen bg-ink text-bone">
@@ -142,109 +127,62 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
           </div>
         </section>
 
-        {/* CHAPTERS */}
-        <div className="mx-auto grid max-w-[1440px] gap-12 px-4 md:grid-cols-[200px_minmax(0,1fr)] md:px-6">
-          <nav aria-label="Chapters" className="sticky top-[72px] hidden gap-3 self-start pt-24 font-mono text-[11px] uppercase tracking-[.12em] md:grid">
-            {CHAPTERS.map(([num, label], i) => (
-              <a key={num} href={`#c${i + 1}`} className="flex gap-3 text-dim">
-                <span className="text-signal">{num}</span>
-                <span>{label}</span>
-              </a>
-            ))}
-          </nav>
-          <div className="min-w-0">
-            <section id="c1" data-screen-label="Chapter 1" className="scroll-mt-12 border-b border-line pb-12 pt-16 md:pt-24">
-              <ChapterHead num="01" title="THE PROBLEM" />
-              <p className="m-0 max-w-[34ch] text-[clamp(1.4rem,2.4vw,2rem)] font-medium leading-[1.3] [text-wrap:pretty]">{cs.problem.lead}</p>
-              <p className="m-0 mt-6 max-w-[60ch] text-[1.05rem] leading-[1.55] text-dim">{cs.problem.body}</p>
-            </section>
-
-            <section id="c2" data-screen-label="Chapter 2" className="scroll-mt-12 border-b border-line py-12">
-              <ChapterHead num="02" title="ARCHITECTURE" />
-              <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
-                <Slot
-                  slot={cs.architecture.diagram}
-                  sizes="(max-width: 767px) 100vw, 40vw"
-                  className="stripes flex aspect-[4/3] items-center justify-center border border-dashed border-line p-4 text-center"
-                  imgClassName="!object-contain"
+        <div className="mx-auto grid max-w-[1440px] px-4 md:px-6">
+          <section data-screen-label="Briefing" className="grid gap-12 border-b border-line pb-12 pt-16 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:pt-24">
+            <div>
+              <ChapterHead num="01" title="BRIEFING" />
+              {cs.about.map((p, i) => (
+                <p
+                  key={i}
+                  className={i === 0 ? "m-0 max-w-[40ch] text-[clamp(1.25rem,2vw,1.6rem)] font-medium leading-[1.35] [text-wrap:pretty]" : "m-0 mt-6 max-w-[60ch] text-[1.05rem] leading-[1.55] text-dim"}
                 >
-                  {tileLabel(cs.architecture.diagram.label)}
-                </Slot>
-                <div className="grid content-center gap-4 text-[15px] leading-[1.55]">
-                  {cs.architecture.bullets.map((b) => (
-                    <div key={b} className="flex gap-3">
-                      <span className="font-mono text-signal" aria-hidden="true">
-                        &gt;
-                      </span>
-                      <span>{b}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {cs.architecture.code && (
-                <pre className="m-0 mt-6 overflow-auto whitespace-pre-wrap border border-line px-5 py-4 font-mono text-[12px] leading-[1.7] text-dim">
-                  <span className="text-signal">{cs.architecture.code.comment}</span>
-                  {cs.architecture.code.line && (
-                    <>
-                      {"\n"}
-                      {cs.architecture.code.line}
-                    </>
-                  )}
-                </pre>
-              )}
-            </section>
-
-            <section id="c3" data-screen-label="Chapter 3" className="scroll-mt-12 border-b border-line py-12">
-              <ChapterHead num="03" title="BOSS FIGHTS" meta="hard problems" />
-              {cs.bosses.map((b) => (
-                <div key={b.name} className="grid gap-6 border-t border-hair py-6 md:grid-cols-2">
-                  <div>
-                    <h3 className="font-pixel m-0 text-[14px] font-normal">{b.name}</h3>
-                    <Segs n={b.hp} total={10} className="my-3 max-w-60" />
-                    <div className="meta">{b.status}</div>
+                  {p}
+                </p>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 content-start gap-x-6 gap-y-8 md:pt-12">
+              {cs.results.map((r) => (
+                <div key={r.k}>
+                  <div className="font-pixel text-[clamp(2rem,4vw,3rem)] leading-none" style={r.signal ? { color: "var(--signal)" } : undefined}>
+                    {r.v}
                   </div>
-                  <div className="text-[15px] leading-[1.55]">{b.text}</div>
+                  <div className="meta mt-2">{r.k}</div>
                 </div>
               ))}
-            </section>
+            </div>
+          </section>
 
-            <section id="c4" data-screen-label="Chapter 4" className="scroll-mt-12 border-b border-line py-12">
-              <ChapterHead num="04" title="GALLERY" />
-              <div className="grid grid-cols-2 gap-px border border-line bg-line md:grid-cols-6">
-                <Slot slot={g[0]} sizes="(max-width: 767px) 100vw, 60vw" className={`${tile} col-span-2 aspect-video md:col-span-4`}>
-                  {tileLabel(g[0].label)}
-                </Slot>
-                <Slot slot={g[1]} sizes="(max-width: 767px) 100vw, 30vw" className={`${tile} col-span-2 max-md:aspect-video`}>
-                  {tileLabel(g[1].label)}
-                </Slot>
-                {g.slice(2).map((s, i) => (
-                  <Slot
-                    key={s.src}
-                    slot={s}
-                    sizes="(max-width: 767px) 50vw, 30vw"
-                    className={`${tile} aspect-[4/3] md:col-span-2 ${i === 2 ? "max-md:col-span-2" : ""}`}
-                  >
-                    {tileLabel(s.label)}
-                  </Slot>
+          {cs.videos && (
+            <section data-screen-label="Footage" className="border-b border-line py-12">
+              <ChapterHead num="02" title="FOOTAGE" meta={`${cs.videos.length} videos`} />
+              <div className="grid gap-4 md:grid-cols-2">
+                {cs.videos.map((v) => (
+                  <iframe
+                    key={v.id}
+                    src={`https://www.youtube-nocookie.com/embed/${v.id}`}
+                    title={v.title}
+                    loading="lazy"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                    className="aspect-video w-full border border-line"
+                  />
                 ))}
               </div>
             </section>
+          )}
 
-            <section id="c5" data-screen-label="Chapter 5" className="scroll-mt-12 pb-24 pt-12">
-              <ChapterHead num="05" title="RESULTS" />
-              <div className="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-6">
-                {cs.results.map((r) => (
-                  <div key={r.k}>
-                    <div className="font-pixel text-[clamp(2rem,4vw,3.5rem)] leading-none" style={r.signal ? { color: "var(--signal)" } : undefined}>
-                      {r.v}
-                    </div>
-                    <div className="meta mt-2">{r.k}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="m-0 mt-12 max-w-[60ch] text-[1.05rem] leading-[1.55] text-dim">{cs.outro}</p>
-            </section>
-          </div>
+          <section data-screen-label="Gallery" className="pb-24 pt-12">
+            <ChapterHead num={cs.videos ? "03" : "02"} title="GALLERY" meta={`${cs.gallery.length} shots`} />
+            <div className={cs.gallery.length > 1 ? "gap-4 md:columns-2" : undefined}>
+              {cs.gallery.map((s) => (
+                <figure key={s.src} className="m-0 mb-4 break-inside-avoid border border-line">
+                  <Image src={s.src} alt={s.label} width={s.w} height={s.h} sizes="(max-width: 767px) 100vw, 50vw" className="block h-auto w-full" />
+                  <figcaption className="meta border-t border-line px-3 py-2">{s.label}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
         </div>
 
         {/* LEVEL COMPLETE */}
@@ -256,7 +194,7 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
                 <br />
                 COMPLETE
               </div>
-              <div className="meta mt-4">★ ★ ★ · all chapters read</div>
+              <div className="meta mt-4">★ ★ ★ · level cleared</div>
             </div>
             <Link href={`/levels/${next.slug}`} className="grid justify-items-start gap-3 border border-line p-6 hover:border-bone">
               <span className="meta">Next level →</span>
