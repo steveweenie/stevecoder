@@ -52,7 +52,7 @@ export function Contact() {
 
   return (
     <section id="contact" data-screen-label="Multiplayer" className="mx-auto max-w-[1440px] scroll-mt-12 px-4 py-8 md:px-6 md:py-24">
-      <SectionHeader num="08" title="MULTIPLAYER" meta="contact" className="mb-6 md:mb-12" />
+      <SectionHeader num="09" title="MULTIPLAYER" meta="contact" className="mb-6 md:mb-12" />
       <div className="grid items-start gap-6 md:grid-cols-[minmax(0,3fr)_minmax(280px,2fr)] md:gap-12">
         <form onSubmit={submit} className="relative grid gap-5 border border-bone p-5 md:p-8" noValidate={false}>
           <span className="max-md:hidden">

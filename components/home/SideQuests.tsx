@@ -235,7 +235,7 @@ export function SideQuestsView({
   const label = states.includes("loading") ? "loading" : states.includes("live") ? "live" : "offline";
   return (
     <section id="feeds" data-screen-label="Side Quests" className="mx-auto max-w-[1440px] scroll-mt-12 px-4 py-8 md:px-6 md:py-24">
-      <SectionHeader num="06" title="SIDE QUESTS" meta={`live feeds · ${label}`} className="mb-6" />
+      <SectionHeader num="07" title="SIDE QUESTS" meta={`live feeds · ${label}`} className="mb-6" />
       <div className="grid auto-rows-[minmax(160px,auto)] grid-cols-6 gap-px border border-line bg-line">
         <GitHub w={github} />
         <NowPlaying w={np} />

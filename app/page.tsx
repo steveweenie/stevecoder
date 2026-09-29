@@ -6,6 +6,7 @@ import { Continue } from "@/components/home/Continue";
 import { QuestLog } from "@/components/home/QuestLog";
 import { LevelSelect } from "@/components/home/LevelSelect";
 import { Achievements } from "@/components/home/Achievements";
+import { Reviews } from "@/components/home/Reviews";
 import { Inventory } from "@/components/home/Inventory";
 import { SideQuests, SideQuestsLoading } from "@/components/home/SideQuests";
 import { Guestbook } from "@/components/home/Guestbook";
@@ -30,6 +31,7 @@ export default async function Home() {
         <QuestLog />
         <LevelSelect />
         <Achievements />
+        <Reviews />
         <Inventory />
         <Suspense fallback={<SideQuestsLoading />}>
           <SideQuests />

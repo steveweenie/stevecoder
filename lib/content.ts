@@ -295,3 +295,55 @@ export const MOCK_SCORES: GuestEntry[] = [
   icon: icon as number,
   createdAt: Date.parse(`${d}T12:00:00-05:00`),
 }));
+
+/** Testimonials, carried over from the old site. Avatars live in /public/images/avatars. */
+export const REVIEWS: { name: string; from: string; avatar: string; quote: string }[] = [
+  {
+    name: "Huey Ho",
+    from: "Byrna Leeward",
+    avatar: "avatar-1.jpg",
+    quote: "Working together was a smooth experience, clear communication and a consistently supportive attitude made it enjoyable.",
+  },
+  {
+    name: "John Paul Toñacao",
+    from: "MCAV Tarpaulin Printing Services",
+    avatar: "avatar-2.jpg",
+    quote: "He's dependable, quick to respond, and delivers high-quality results. He also offered valuable insights, some of which we ended up using, adding extra value to the project.",
+  },
+  {
+    name: "Brad Herbert",
+    from: "NSITE Principal",
+    avatar: "avatar-5.jpg",
+    quote: "His proactive approach to learning, insightful questions, and dedication to academic excellence make him a standout individual who will undoubtedly succeed in any endeavor.",
+  },
+  {
+    name: "Samuel Ang",
+    from: "CS Professor @ UTSA",
+    avatar: "avatar-6.jpg",
+    quote: "Steve is an exceptionally proactive student who consistently excelled through his eagerness to learn and his thoughtful, engaging questions.",
+  },
+  {
+    name: "Veronica Herrera",
+    from: "NSITE Counselor",
+    avatar: "avatar-7.jpg",
+    quote: "Steve is a very studious and intelligent person. He has worked very hard to be at the top of his class. He is always eager to learn and takes the initiative!",
+  },
+  {
+    name: "Chad Hoggard",
+    from: "CodeQuantum '25 Hackathon",
+    avatar: "avatar-8.jpg",
+    quote: "Steve's React skills created an engaging, user-friendly experience, it made our project stand out! He was also a great team player and brought us to victory!",
+  },
+  {
+    name: "Christian Hockley",
+    from: "SilvesBro",
+    avatar: "avatar-3.jpg",
+    quote: "Great to work with and we finished the project in a timely manner. He was not afraid to help out with other tasks and was a great team player.",
+  },
+  {
+    name: "Frank Podraza",
+    from: "Developer of Castle Wars",
+    avatar: "avatar-4.jpg",
+    quote: "A highly skilled and innovative game developer, I participated in an 'Undead Presidents' playtest and was impressed by the level of detail.",
+  },
+];

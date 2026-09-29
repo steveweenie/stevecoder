@@ -34,7 +34,7 @@ export function Inventory() {
 
   return (
     <section id="inventory" data-screen-label="Inventory" className="mx-auto max-w-[1440px] scroll-mt-12 px-4 py-8 md:px-6 md:py-24">
-      <SectionHeader num="05" title="INVENTORY" className="mb-4 flex-wrap md:mb-6">
+      <SectionHeader num="06" title="INVENTORY" className="mb-4 flex-wrap md:mb-6">
         {tabs("ml-auto hidden gap-4 text-[11px] tracking-[.12em] md:flex")}
       </SectionHeader>
       {tabs("mb-4 flex gap-4 text-[10px] tracking-[.1em] md:hidden")}
