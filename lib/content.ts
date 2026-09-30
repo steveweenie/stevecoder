@@ -24,7 +24,7 @@ export const QUESTS: Quest[] = [
     active: true,
     tags: ["VB.NET", "C#", "PHP", "T-SQL", "Azure", "Azure DevOps"],
     bullets: [
-      "Develops and maintains VB.NET, C#, and PHP apps for a nonprofit serving 15,000 members and 700+ clubs.",
+      "Develops and maintains VB.NET, C#, and PHP apps for the National Skeet Shooting Association and National Sporting Clays Association (NSSA-NSCA), a nonprofit serving 15,000 members and 700+ clubs.",
       "Writes the T-SQL stored procedures behind national competition results.",
       "Supports the Azure modernization of a legacy PHP and WordPress platform, with work tracked in Azure DevOps.",
       "Also covers IT support across Microsoft 365, Entra, and Windows Server.",
