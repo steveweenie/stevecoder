@@ -1,10 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { cx, Icon, SectionHeader } from "../ui";
 import { GB_ICONS, type GuestEntry } from "@/lib/content";
 
-type State = "idle" | "submitting" | "submitted" | "error";
+type State = "idle" | "submitting" | "submitted" | "profane" | "error";
 
 const date = (ms: number) => {
   const d = new Date(ms);
@@ -17,6 +18,7 @@ const label = "grid gap-1.5 font-mono text-[11px] uppercase tracking-[.12em] tex
 export function Guestbook({ entries }: { entries: GuestEntry[] }) {
   const [state, setState] = useState<State>("idle");
   const [icon, setIcon] = useState(0);
+  const router = useRouter();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,9 +31,11 @@ export function Guestbook({ entries }: { entries: GuestEntry[] }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ tag: f.get("tag"), msg: f.get("msg"), icon, botcheck: f.get("botcheck") }),
       });
+      if (res.status === 422) return setState("profane");
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
       setState("submitted");
+      router.refresh();
     } catch {
       setState("error");
     }
@@ -39,8 +43,10 @@ export function Guestbook({ entries }: { entries: GuestEntry[] }) {
 
   const msg =
     state === "submitted"
-      ? "Score saved. Pending review before it hits the board."
-      : state === "error"
+      ? "Score saved. You're on the board."
+      : state === "profane"
+        ? "Foul play detected. Keep it clean and try again."
+        : state === "error"
         ? "Save failed. The arcade ate your quarter. Try again."
         : state === "submitting"
           ? "Writing to leaderboard..."
@@ -127,7 +133,7 @@ export function Guestbook({ entries }: { entries: GuestEntry[] }) {
           <div
             role="status"
             className="min-h-[18px] font-mono text-[12px]"
-            style={{ color: state === "error" ? "var(--signal)" : "var(--dim)" }}
+            style={{ color: state === "error" || state === "profane" ? "var(--signal)" : "var(--dim)" }}
           >
             {msg}
           </div>

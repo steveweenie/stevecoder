@@ -1,10 +1,11 @@
 import { revalidatePath } from "next/cache";
-import { listPending, moderate } from "@/lib/guestbook";
+import { listApproved, removeEntry } from "@/lib/guestbook";
 
 /**
- * Guestbook moderation. Send `Authorization: Bearer $GUESTBOOK_ADMIN_TOKEN`.
- *   GET   → pending entries
- *   POST  { id, action: "approve" | "reject" }
+ * Guestbook takedowns for anything the filter misses.
+ * Send `Authorization: Bearer $GUESTBOOK_ADMIN_TOKEN`.
+ *   GET   → latest entries
+ *   POST  { id } → remove from the board
  */
 function authorized(req: Request) {
   const token = process.env.GUESTBOOK_ADMIN_TOKEN;
@@ -13,17 +14,15 @@ function authorized(req: Request) {
 
 export async function GET(req: Request) {
   if (!authorized(req)) return Response.json({ error: "Unauthorized" }, { status: 401 });
-  return Response.json({ pending: await listPending() });
+  return Response.json({ entries: await listApproved(50) });
 }
 
 export async function POST(req: Request) {
   if (!authorized(req)) return Response.json({ error: "Unauthorized" }, { status: 401 });
-  const { id, action } = (await req.json().catch(() => ({}))) as { id?: string; action?: string };
-  if (!id || (action !== "approve" && action !== "reject")) {
-    return Response.json({ error: "Expected { id, action: approve | reject }" }, { status: 400 });
-  }
-  const ok = await moderate(id, action);
+  const { id } = (await req.json().catch(() => ({}))) as { id?: string };
+  if (!id) return Response.json({ error: "Expected { id }" }, { status: 400 });
+  const ok = await removeEntry(id);
   if (!ok) return Response.json({ error: "Not found" }, { status: 404 });
-  if (action === "approve") revalidatePath("/");
+  revalidatePath("/");
   return Response.json({ ok: true });
 }

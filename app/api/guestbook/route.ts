@@ -1,4 +1,5 @@
-import { addPending } from "@/lib/guestbook";
+import { revalidatePath } from "next/cache";
+import { addEntry, isProfane } from "@/lib/guestbook";
 import { GB_ICONS } from "@/lib/content";
 import { clientIp, rateLimited } from "@/lib/redis";
 
@@ -13,7 +14,7 @@ export async function POST(req: Request) {
   }
 
   // Honeypot.
-  if (body.botcheck) return Response.json({ ok: true, pending: true });
+  if (body.botcheck) return Response.json({ ok: true });
 
   const tag = String(body.tag ?? "").trim().toUpperCase();
   const msg = String(body.msg ?? "").trim().replace(/\s+/g, " ");
@@ -22,14 +23,19 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid entry" }, { status: 400 });
   }
 
+  if (isProfane(tag) || isProfane(msg)) {
+    return Response.json({ error: "Keep it clean" }, { status: 422 });
+  }
+
   if (await rateLimited(`gb:${clientIp(req)}`, 3, 3600)) {
     return Response.json({ error: "Too many entries" }, { status: 429 });
   }
 
-  const ok = await addPending({ id: crypto.randomUUID(), tag, msg, icon, createdAt: Date.now() }).catch((err) => {
+  const ok = await addEntry({ id: crypto.randomUUID(), tag, msg, icon, createdAt: Date.now() }).catch((err) => {
     console.error("[guestbook] write failed:", err);
     return false;
   });
   if (!ok) return Response.json({ error: "Storage unavailable" }, { status: 503 });
-  return Response.json({ ok: true, pending: true });
+  revalidatePath("/");
+  return Response.json({ ok: true });
 }
