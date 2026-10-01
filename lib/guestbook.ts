@@ -1,4 +1,5 @@
 import "server-only";
+import { unstable_rethrow } from "next/navigation";
 import { englishDataset, englishRecommendedTransformers, RegExpMatcher } from "obscenity";
 import { MOCK_SCORES, type GuestEntry } from "./content";
 import { MOCK, redis } from "./redis";
@@ -23,6 +24,8 @@ export async function listApproved(limit = 10): Promise<GuestEntry[]> {
     const rows = await redis.mget<(GuestEntry | null)[]>(...ids.map((id) => `gb:entry:${id}`));
     return rows.filter((r): r is GuestEntry => !!r);
   } catch (err) {
+    // Let Next see the uncached Redis read (it renders the page per request) instead of logging it as a failure.
+    unstable_rethrow(err);
     console.warn("[guestbook] read failed:", (err as Error).message);
     return [];
   }
