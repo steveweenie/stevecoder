@@ -22,6 +22,8 @@ type Game = {
 
 // The terminal (and Motion) only load the first time it opens.
 const Terminal = dynamic(() => import("./Terminal").then((m) => m.Terminal), { ssr: false });
+// Liveblocks (players online + live cursors) loads in the browser after hydration.
+const Multiplayer = dynamic(() => import("./Multiplayer"), { ssr: false });
 
 const Ctx = createContext<Game | null>(null);
 export const useGame = () => {
@@ -40,20 +42,6 @@ function store(key: string, value: string) {
 
 export function isTyping(el: Element | null) {
   return !!el && (["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName) || (el as HTMLElement).isContentEditable);
-}
-
-let pid: string | undefined;
-
-/** Anonymous per-tab id, shared by the presence heartbeat and live cursors. */
-export function playerId() {
-  if (pid) return pid;
-  try {
-    pid = sessionStorage.getItem("pid") ?? crypto.randomUUID();
-    sessionStorage.setItem("pid", pid);
-  } catch {
-    pid = crypto.randomUUID();
-  }
-  return pid;
 }
 
 export function GameProvider({ weather, children }: { weather: WeatherData | null; children: React.ReactNode }) {
@@ -113,25 +101,6 @@ export function GameProvider({ weather, children }: { weather: WeatherData | nul
     };
   }, [setTheme]);
 
-  // Players online: heartbeat every 30s while the tab is visible.
-  useEffect(() => {
-    const id = playerId();
-    const ping = () => {
-      if (document.visibilityState !== "visible") return;
-      fetch("/api/presence", { method: "POST", body: JSON.stringify({ id }) })
-        .then((r) => r.json())
-        .then((d) => typeof d.players === "number" && setPlayers(d.players))
-        .catch(() => {});
-    };
-    ping();
-    const iv = setInterval(ping, 30_000);
-    document.addEventListener("visibilitychange", ping);
-    return () => {
-      clearInterval(iv);
-      document.removeEventListener("visibilitychange", ping);
-    };
-  }, []);
-
   const value = useMemo(
     () => ({ theme, toggleTheme, term, setTerm, players, weather, bootRef }),
     [theme, toggleTheme, term, players, weather],
@@ -150,6 +119,7 @@ export function GameProvider({ weather, children }: { weather: WeatherData | nul
         )}
         <ScrollFx />
         {children}
+        <Multiplayer onPlayers={setPlayers} />
         {term && <Terminal onClose={() => setTerm(false)} />}
     </Ctx.Provider>
   );

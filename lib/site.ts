@@ -64,5 +64,5 @@ export function go(id: string) {
   return true;
 }
 
-/** The Liveblocks room every homepage visitor joins for live cursors. */
+/** The Liveblocks room every visitor joins: players online and live cursors. */
 export const CURSOR_ROOM = "stevecoder-home";

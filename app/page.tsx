@@ -11,7 +11,7 @@ import { Inventory } from "@/components/home/Inventory";
 import { SideQuests, SideQuestsLoading } from "@/components/home/SideQuests";
 import { Guestbook } from "@/components/home/Guestbook";
 import { Contact } from "@/components/home/Contact";
-import { DevRoom, Footer, LiveCursors } from "@/components/home/Extras";
+import { DevRoom, Footer } from "@/components/home/Extras";
 import { listApproved } from "@/lib/guestbook";
 import { statusFor } from "@/lib/site";
 
@@ -23,7 +23,6 @@ export default async function Home() {
   return (
     <div className="relative min-h-screen overflow-x-clip bg-ink text-bone">
       <Boot />
-      <LiveCursors />
       <Hud initialStatus={statusFor()} />
       <main>
         <TitleScreen />
