@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     qualities: [50, 75],
     remotePatterns: [
       { protocol: "https", hostname: "lastfm.freetls.fastly.net" },
+      { protocol: "https", hostname: "lastfm-img.freetls.fastly.net" },
       { protocol: "https", hostname: "i.ytimg.com" },
       { protocol: "https", hostname: "cdn.cloudflare.steamstatic.com" },
       { protocol: "https", hostname: "shared.akamai.steamstatic.com" },
