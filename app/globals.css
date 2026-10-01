@@ -233,18 +233,6 @@ html[data-booted] .hero-in {
   animation-delay: calc(var(--d, 0) * 110ms);
 }
 
-/* Scroll reveal (see components/ScrollFx.tsx): each section's children rise in, staggered. */
-.rv-hide > * {
-  opacity: 0;
-  transform: translateY(32px);
-}
-.rv-show > * {
-  transition:
-    opacity 0.8s var(--ease-out),
-    transform 0.8s var(--ease-out);
-  transition-delay: calc(var(--rv-i, 0) * 90ms);
-}
-
 /* HUD scroll progress, driven by the page's scroll position. */
 .scroll-progress {
   transform-origin: left;
