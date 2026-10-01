@@ -1,36 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useGame } from "../game/GameProvider";
 import { cx, Icon, SectionHeader, Slot } from "../ui";
 import { SITE } from "@/lib/site";
 import { SLOTS } from "@/lib/slots";
 
-/** Other visitors as drifting P2/P3 cursors (decorative; count comes from presence). */
-export function LiveCursors() {
-  const { players } = useGame();
-  const others = Math.min(2, Math.max(0, players - 1));
-  const spots = [
-    { left: "62%", top: "38%", anim: "drift1 14s steps(28) infinite", tag: "P2" },
-    { left: "24%", top: "70%", anim: "drift2 18s steps(36) infinite", tag: "P3" },
-  ].slice(0, others);
-  return (
-    <>
-      {spots.map((c) => (
-        <div
-          key={c.tag}
-          aria-hidden="true"
-          className="pointer-events-none fixed z-[5] hidden items-start gap-1 md:flex"
-          style={{ left: c.left, top: c.top, animation: c.anim }}
-        >
-          <svg width="14" height="18" viewBox="0 0 7 9" shapeRendering="crispEdges">
-            <path d="M0 0h1v1h1v1h1v1h1v1h1v1h1v1H4v1h1v1H3V7H2V6H1V5H0z" fill="var(--bone)" />
-          </svg>
-          <span className="mt-2.5 bg-signal px-1 py-px font-mono text-[10px] text-ink">{c.tag}</span>
-        </div>
-      ))}
-    </>
-  );
-}
+/** Other visitors' real cursors. Liveblocks only loads in the browser, after hydration. */
+export const LiveCursors = dynamic(() => import("./LiveCursors"), { ssr: false });
 
 export function DevRoom() {
   const { theme } = useGame();

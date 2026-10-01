@@ -42,6 +42,20 @@ export function isTyping(el: Element | null) {
   return !!el && (["INPUT", "TEXTAREA", "SELECT"].includes(el.tagName) || (el as HTMLElement).isContentEditable);
 }
 
+let pid: string | undefined;
+
+/** Anonymous per-tab id, shared by the presence heartbeat and live cursors. */
+export function playerId() {
+  if (pid) return pid;
+  try {
+    pid = sessionStorage.getItem("pid") ?? crypto.randomUUID();
+    sessionStorage.setItem("pid", pid);
+  } catch {
+    pid = crypto.randomUUID();
+  }
+  return pid;
+}
+
 export function GameProvider({ weather, children }: { weather: WeatherData | null; children: React.ReactNode }) {
   // The inline script in <head> applies the stored theme before paint; <html data-theme> is the source of truth.
   const theme = (useHtmlAttr("data-theme") ?? "dark") as Theme;
@@ -101,13 +115,7 @@ export function GameProvider({ weather, children }: { weather: WeatherData | nul
 
   // Players online: heartbeat every 30s while the tab is visible.
   useEffect(() => {
-    let id: string;
-    try {
-      id = sessionStorage.getItem("pid") ?? crypto.randomUUID();
-      sessionStorage.setItem("pid", id);
-    } catch {
-      id = crypto.randomUUID();
-    }
+    const id = playerId();
     const ping = () => {
       if (document.visibilityState !== "visible") return;
       fetch("/api/presence", { method: "POST", body: JSON.stringify({ id }) })

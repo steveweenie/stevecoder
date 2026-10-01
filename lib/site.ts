@@ -63,3 +63,6 @@ export function go(id: string) {
   window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 48, behavior: "smooth" });
   return true;
 }
+
+/** The Liveblocks room every homepage visitor joins for live cursors. */
+export const CURSOR_ROOM = "stevecoder-home";
