@@ -11,7 +11,6 @@ export const SITE = {
     youtube: "https://www.youtube.com/@guitargatekeeper",
     youtubeSubscribe: "https://www.youtube.com/@guitargatekeeper?sub_confirmation=1",
     steamGame: "https://store.steampowered.com/app/3517560/Undead_Presidents",
-    // TODO: swap for your Steam community profile URL if you want the footer icon to point at you instead of the game.
     steam: "https://store.steampowered.com/app/3517560/Undead_Presidents",
   },
   location: { label: "San Antonio, TX", lat: 29.4241, lon: -98.4936, tz: "America/Chicago" },

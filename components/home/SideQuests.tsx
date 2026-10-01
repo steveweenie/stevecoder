@@ -100,7 +100,6 @@ function NowPlaying({ w }: { w: W<NowPlayingData> }) {
         <span>Now playing</span>
       </PanelHead>
       {w.state === "loading" && <Loading>Loading tracks</Loading>}
-      {/* TODO: offline copy was not in the design; confirm the wording. */}
       {w.state === "offline" && <Note>Last.fm is quiet. Silence is also a genre.</Note>}
       {d && (
         <a href={d.url ?? "#"} target={d.url ? "_blank" : undefined} rel="noopener noreferrer" className="flex items-center gap-4">
@@ -144,7 +143,6 @@ function YouTube({ w }: { w: W<YouTubeData> }) {
           <Loading>Loading videos</Loading>
         </div>
       )}
-      {/* TODO: offline copy was not in the design; confirm the wording. */}
       {w.state === "offline" && (
         <div className="col-span-2">
           <Note>YouTube isn&apos;t answering. The riffs are still up there.</Note>
@@ -187,7 +185,6 @@ function Steam({ w }: { w: W<SteamData> }) {
         {d && <span className="ml-auto">{fmt.int(d.totalHours)} hrs total</span>}
       </PanelHead>
       {w.state === "loading" && <Loading>Loading library</Loading>}
-      {/* TODO: offline copy was not in the design; confirm the wording. */}
       {w.state === "offline" && <Note>Steam is offline. So, probably, am I.</Note>}
       {d && (
         <>
