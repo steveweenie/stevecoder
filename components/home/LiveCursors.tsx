@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { LiveblocksProvider, RoomProvider, useOthersMapped, useUpdateMyPresence } from "@liveblocks/react";
+import { useFinePointer, useIsMobile } from "@/lib/hooks";
 import { CURSOR_ROOM } from "@/lib/site";
 import { playerId } from "../game/GameProvider";
 
@@ -30,10 +31,17 @@ async function auth(room?: string) {
   }
 }
 
-/** Other visitors' real mouse cursors, shared over Liveblocks presence. */
+/**
+ * Other visitors' real mouse cursors, shared over Liveblocks presence.
+ * To stay inside the free plan's connection minutes, only desktop visitors with a
+ * mouse connect, and a tab in the background disconnects after 30s.
+ */
 export default function LiveCursors() {
+  const mobile = useIsMobile();
+  const mouse = useFinePointer();
+  if (mobile || !mouse) return null;
   return (
-    <LiveblocksProvider authEndpoint={auth} throttle={50}>
+    <LiveblocksProvider authEndpoint={auth} throttle={50} backgroundKeepAliveTimeout={30_000}>
       <RoomProvider id={CURSOR_ROOM} initialPresence={{ cursor: null }}>
         <Cursors />
       </RoomProvider>
