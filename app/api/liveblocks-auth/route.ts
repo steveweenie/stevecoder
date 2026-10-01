@@ -6,7 +6,7 @@ const secret = process.env.LIVEBLOCKS_SECRET_KEY;
 const liveblocks = secret ? new Liveblocks({ secret }) : null;
 
 /**
- * Issues a Liveblocks token for the multiplayer room only: read access plus
+ * Issues a Liveblocks token for the live cursors room only: read access plus
  * presence writes, so a token can move a cursor but can't touch room storage.
  */
 export async function POST(req: Request) {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   if (room !== CURSOR_ROOM || !id || !/^[\w-]{8,64}$/.test(id)) {
     return Response.json({ error: "Bad request" }, { status: 400 });
   }
-  if (await rateLimited(`cursors:${clientIp(req)}`, 120, 600)) {
+  if (await rateLimited(`cursors:${clientIp(req)}`, 30, 600)) {
     return Response.json({ error: "Too many requests" }, { status: 429 });
   }
   const session = liveblocks.prepareSession(id);

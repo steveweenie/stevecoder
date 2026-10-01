@@ -1,9 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useGame } from "../game/GameProvider";
 import { cx, Icon, SectionHeader, Slot } from "../ui";
 import { SITE } from "@/lib/site";
 import { SLOTS } from "@/lib/slots";
+
+/** Other visitors' real cursors. Liveblocks only loads in the browser, after hydration. */
+export const LiveCursors = dynamic(() => import("./LiveCursors"), { ssr: false });
 
 export function DevRoom() {
   const { theme } = useGame();
