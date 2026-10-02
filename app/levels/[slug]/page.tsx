@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Progress } from "@/components/case/Progress";
 import { Go } from "@/components/home/LevelSelect";
-import { Slot } from "@/components/ui";
+import { cx, Slot } from "@/components/ui";
 import { getLevel, LEVELS, nextLevel } from "@/lib/levels";
 
 export const dynamicParams = false;
@@ -154,8 +154,8 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
 
           {cs.videos && (
             <section data-screen-label="Footage" className="border-b border-line py-12">
-              <ChapterHead num="02" title="FOOTAGE" meta={`${cs.videos.length} videos`} />
-              <div className="grid gap-4 md:grid-cols-2">
+              <ChapterHead num="02" title="FOOTAGE" meta={`${cs.videos.length} video${cs.videos.length === 1 ? "" : "s"}`} />
+              <div className={cx("grid gap-4", cs.videos.length > 1 && "md:grid-cols-2")}>
                 {cs.videos.map((v) => (
                   <iframe
                     key={v.id}

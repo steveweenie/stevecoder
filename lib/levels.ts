@@ -92,6 +92,7 @@ export const LEVELS: Level[] = [
         "Couch co-op is fun until someone's friend lives two states away. Most split-screen games force a choice: local or online. I wanted both at once.",
         "Two players on one screen can join two more on another machine, with no dedicated server. Up to 8 players over Steam P2P, with host migration when someone drops.",
       ],
+      videos: [{ id: "5KPhPEKmgEI", title: "Undead Presidents Trailer - Wishlist On Steam!" }],
       gallery: [
         shot("undead-presidents-trailer-meanwhile-1920x1080.jpg", "Trailer title card: meanwhile at a classified government facility", 1920, 1080),
         shot("undead-presidents-split-screen-4p-1920x1080.jpg", "Four-player split-screen", 1920, 1080),

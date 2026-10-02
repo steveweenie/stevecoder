@@ -65,16 +65,22 @@ const MOCKS = {
     heat: MOCK_HEAT,
     commit: { sha: "a3f9c1", message: "fix: idempotent stripe webhook replay", repo: "aloha-tt", ago: "2h ago", url: SITE.links.github },
   } satisfies GitHubData,
-  nowPlaying: { track: "Under the Bridge", artist: "Red Hot Chili Peppers", nowPlaying: true } satisfies NowPlayingData,
+  nowPlaying: {
+    track: "Weird Fishes/Arpeggi",
+    artist: "Radiohead",
+    art: "https://i.ytimg.com/vi/pcEJyvv6_kc/hqdefault.jpg",
+    nowPlaying: true,
+  } satisfies NowPlayingData,
   youtube: {
-    title: "Why every guitarist should learn one jazz standard",
+    title: "Undead Presidents Trailer - Wishlist On Steam!",
+    thumb: "https://i.ytimg.com/vi/5KPhPEKmgEI/maxresdefault.jpg",
     url: SITE.links.youtube,
     subscribers: 2140,
     views: 186000,
   } satisfies YouTubeData,
   steam: {
     totalHours: 412,
-    current: { name: "Hades II", playing: true },
+    current: { name: "Hades II", cover: "https://cdn.cloudflare.steamstatic.com/steam/apps/1145350/header.jpg", playing: true },
     recent: [
       { name: "Undead Presidents (dev build)", hours: 38 },
       { name: "Risk of Rain 2", hours: 12 },

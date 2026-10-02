@@ -10,9 +10,9 @@ export const SLOTS = {
   ),
   heroMobile: img("undead-presidents-gameplay-loop-or-guitar-photo.jpg", "gameplay loop"),
   devRoom: [
-    img("undead-presidents-build-0-1-2024.png", "Undead Presidents build 0.1, 2024"),
-    img("netcode-bloopers-clip.png", "netcode bloopers clip"),
-    img("guitar-clip-vertical-1080x1920.png", "guitar clip, vertical 1080x1920"),
-    img("first-hackathon-whiteboard-photo.png", "first hackathon whiteboard photo"),
+    img("undead-presidents-hero-corridor-1920x1080.jpg", "Undead Presidents build 0.1, 2024"),
+    img("undead-presidents-split-screen-4p-1920x1080.jpg", "netcode bloopers clip"),
+    { src: "https://i.ytimg.com/vi/5KPhPEKmgEI/maxresdefault.jpg", label: "insert: Undead Presidents trailer" },
+    img("tat-trick-war-room.jpg", "first hackathon whiteboard photo"),
   ],
 } satisfies Record<string, Slot | Slot[]>;
