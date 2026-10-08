@@ -37,7 +37,7 @@ export function Continue() {
           </div>
           <p className="m-0 max-w-[52ch] text-[clamp(1.1rem,1.6vw,1.4rem)] leading-[1.45] [text-wrap:pretty]">
             I build full stack apps by day, multiplayer games by night, and make music somewhere in between. Right now I&apos;m
-            shipping software at Y&amp;L Consulting and running tech for Aloha Table Tennis.
+            shipping software at NSSA-NSCA and running tech for Aloha Table Tennis.
           </p>
         </div>
       </div>
