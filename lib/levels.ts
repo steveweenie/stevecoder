@@ -290,6 +290,8 @@ export const LEVELS: Level[] = [
       videos: [{ id: "GC47dYAuBNQ", title: "FrontierFund Demo (RowdyHacks 2025)" }],
       slides: { id: "18TGgJ__TgkxsVId9C2bK-G88jmJU-680JCycMAzak6k", title: "FrontierFund pitch deck, RowdyHacks 2025" },
       gallery: [
+        shot("frontierfund-team.jpg", "The team at RowdyHacks XI", 480, 600),
+        shot("frontierfund-build-table.jpg", "Heads down at our table, hour who-knows", 800, 550),
         shot("frontierfund-screens-ranches.jpg", "Log in, portfolio summary, and your ranches", 1574, 1008),
         shot("frontierfund-screens-voting.jpg", "Vote on proposals, pick a stock at live prices, and track the ranch's holdings", 1574, 1008),
       ],
