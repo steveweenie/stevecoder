@@ -33,6 +33,8 @@ export type Level = {
   stack: string;
   primary?: { label: string; mobileLabel?: string; href: string; hot?: boolean };
   source?: string;
+  /** Extra outbound links (Devpost, slides, ...) shown after Source on the case study. */
+  links?: { label: string; href: string }[];
   media: Slot;
   mobileMedia?: Slot;
   caseStudy: CaseStudy;
@@ -45,6 +47,8 @@ export type CaseStudy = {
   about: string[];
   /** YouTube video IDs. */
   videos?: { id: string; title: string }[];
+  /** Google Slides presentation ID, embedded beside the videos. */
+  slides?: { id: string; title: string };
   gallery: Shot[];
   results: { v: string; k: string; signal?: boolean }[];
 };
@@ -248,8 +252,58 @@ export const LEVELS: Level[] = [
     },
   },
   {
-    slug: "emptyshellcasing",
+    slug: "frontierfund",
     num: "LEVEL 05",
+    rarity: "RARE",
+    title: "FrontierFund",
+    display: ["FRONTIER", "FUND"],
+    type: "Mobile",
+    year: "2025",
+    featured: false,
+    pitch: "A shared brokerage app from RowdyHacks 2025. Friends and family pool money in \"ranches\" and vote on every trade.",
+    desc: "A shared brokerage app where groups pool money and vote on trades.",
+    stats: [
+      { v: "24h", k: "build time" },
+      { v: "5", k: "person team" },
+    ],
+    stack: "React Native · Expo · FastAPI · DynamoDB · Alpaca",
+    primary: { label: "Live site", href: "https://www.frontierfund.rodeo" },
+    source: "https://github.com/steveweenie/FrontierFund",
+    links: [
+      { label: "Devpost", href: "https://devpost.com/software/frontierfund" },
+      { label: "Pitch deck", href: "https://docs.google.com/presentation/d/18TGgJ__TgkxsVId9C2bK-G88jmJU-680JCycMAzak6k" },
+    ],
+    media: img("frontierfund-title-slide.jpg", "FrontierFund title slide: Your Money, your Vote."),
+    caseStudy: {
+      lede: "Your money, your vote. A shared brokerage app where friends and family pool money in \"ranches\" and invest together, built in 24 hours at RowdyHacks 2025.",
+      meta: {
+        role: "Full-stack developer",
+        timeline: "Oct 2025 · 24 hours",
+        stack: "React Native · Expo · TypeScript · Python · FastAPI · DynamoDB · Docker · Alpaca API",
+        status: "Hackathon build",
+      },
+      hero: img("frontierfund-hero.jpg", "FrontierFund's cowboy-hat rockets over a starfield"),
+      about: [
+        "Jared's family saves through a tanda: a group pools money and each member takes a turn with the whole pot. We asked what that looks like with a brokerage account.",
+        "In FrontierFund, \"settlers\" form a ranch, deposit into a shared balance, and vote on every move: buying a stock, withdrawing, or kicking a member. Trades price live through the Alpaca API. It's a React Native app on Expo talking to a FastAPI backend on DynamoDB, all running in Docker. We didn't place, but we shipped it working.",
+      ],
+      videos: [{ id: "GC47dYAuBNQ", title: "FrontierFund Demo (RowdyHacks 2025)" }],
+      slides: { id: "18TGgJ__TgkxsVId9C2bK-G88jmJU-680JCycMAzak6k", title: "FrontierFund pitch deck, RowdyHacks 2025" },
+      gallery: [
+        shot("frontierfund-screens-ranches.jpg", "Log in, portfolio summary, and your ranches", 1574, 1008),
+        shot("frontierfund-screens-voting.jpg", "Vote on proposals, pick a stock at live prices, and track the ranch's holdings", 1574, 1008),
+      ],
+      results: [
+        { v: "24h", k: "build time" },
+        { v: "5", k: "person team" },
+        { v: "4", k: "things to vote on" },
+        { v: "36h", k: "without sleep" },
+      ],
+    },
+  },
+  {
+    slug: "emptyshellcasing",
+    num: "LEVEL 06",
     rarity: "RARE",
     title: "emptyshellcasing.com",
     display: ["EMPTY", "SHELL", "CASING"],
@@ -295,7 +349,7 @@ export const LEVELS: Level[] = [
   },
   {
     slug: "silvesbro",
-    num: "LEVEL 06",
+    num: "LEVEL 07",
     rarity: "UNCOMMON",
     title: "SilvesBro",
     display: ["SILVES", "BRO"],
@@ -356,6 +410,7 @@ export const LEVEL_ALIASES: Record<string, string> = {
   "aloha-table-tennis": "aloha-table-tennis",
   "tat-trick": "tat-trick",
   "mad-hatters-whisper": "mad-hatters-whisper",
+  frontierfund: "frontierfund",
   emptyshellcasing: "emptyshellcasing",
   silvesbro: "silvesbro",
 };

@@ -40,6 +40,8 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
   const next = nextLevel(L.slug);
   const index = LEVELS.indexOf(L) + 1;
   const hot = L.primary?.hot;
+  const videos = cs.videos ?? [];
+  const footage = videos.length + (cs.slides ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-ink text-bone">
@@ -123,6 +125,11 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
                   Source
                 </Go>
               )}
+              {L.links?.map((l) => (
+                <Go key={l.href} href={l.href} className="border border-line px-4 py-3 hover:border-bone">
+                  {l.label}
+                </Go>
+              ))}
             </div>
           </div>
         </section>
@@ -152,11 +159,15 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
             </div>
           </section>
 
-          {cs.videos && (
+          {footage > 0 && (
             <section data-screen-label="Footage" className="border-b border-line py-12">
-              <ChapterHead num="02" title="FOOTAGE" meta={`${cs.videos.length} video${cs.videos.length === 1 ? "" : "s"}`} />
-              <div className={cx("grid gap-4", cs.videos.length > 1 && "md:grid-cols-2")}>
-                {cs.videos.map((v) => (
+              <ChapterHead
+                num="02"
+                title="FOOTAGE"
+                meta={[videos.length && `${videos.length} video${videos.length === 1 ? "" : "s"}`, cs.slides && "1 deck"].filter(Boolean).join(" · ")}
+              />
+              <div className={cx("grid gap-4", footage > 1 && "md:grid-cols-2")}>
+                {videos.map((v) => (
                   <iframe
                     key={v.id}
                     src={`https://www.youtube-nocookie.com/embed/${v.id}`}
@@ -168,12 +179,21 @@ export default async function CaseStudy({ params }: PageProps<"/levels/[slug]">)
                     className="aspect-video w-full border border-line"
                   />
                 ))}
+                {cs.slides && (
+                  <iframe
+                    src={`https://docs.google.com/presentation/d/${cs.slides.id}/embed`}
+                    title={cs.slides.title}
+                    loading="lazy"
+                    allowFullScreen
+                    className="aspect-video w-full border border-line"
+                  />
+                )}
               </div>
             </section>
           )}
 
           <section data-screen-label="Gallery" className="pb-24 pt-12">
-            <ChapterHead num={cs.videos ? "03" : "02"} title="GALLERY" meta={`${cs.gallery.length} shots`} />
+            <ChapterHead num={footage ? "03" : "02"} title="GALLERY" meta={`${cs.gallery.length} shots`} />
             <div className={cs.gallery.length > 1 ? "gap-4 md:columns-2" : undefined}>
               {cs.gallery.map((s) => (
                 <figure key={s.src} className="m-0 mb-4 break-inside-avoid border border-line">
