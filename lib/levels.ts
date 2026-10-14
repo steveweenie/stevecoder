@@ -267,10 +267,9 @@ export const LEVELS: Level[] = [
       { v: "5", k: "person team" },
     ],
     stack: "React Native · Expo · FastAPI · DynamoDB · Alpaca",
-    primary: { label: "Live site", href: "https://www.frontierfund.rodeo" },
+    primary: { label: "Devpost", href: "https://devpost.com/software/frontierfund" },
     source: "https://github.com/steveweenie/FrontierFund",
     links: [
-      { label: "Devpost", href: "https://devpost.com/software/frontierfund" },
       { label: "Pitch deck", href: "https://docs.google.com/presentation/d/18TGgJ__TgkxsVId9C2bK-G88jmJU-680JCycMAzak6k" },
     ],
     media: img("frontierfund-title-slide.jpg", "FrontierFund title slide: Your Money, your Vote."),
