@@ -24,10 +24,16 @@ export const QUESTS: Quest[] = [
     active: true,
     tags: ["VB.NET", "C#", "PHP", "T-SQL", "Azure", "Azure DevOps"],
     bullets: [
-      "Develops and maintains VB.NET, C#, and PHP apps for the National Skeet Shooting Association and National Sporting Clays Association (NSSA-NSCA), a nonprofit serving 15,000 members and 700+ clubs.",
-      "Writes the T-SQL stored procedures behind national competition results.",
-      "Supports the Azure modernization of a legacy PHP and WordPress platform, with work tracked in Azure DevOps.",
-      "Also covers IT support across Microsoft 365, Entra, and Windows Server.",
+      "Contracted through Y&L Consulting for the National Skeet Shooting Association and National Sporting Clays Association (NSSA-NSCA), a nonprofit serving 15,000 members and 700+ clubs. On an IT team of four, I'm the jack of all trades: developer, data engineer, and helpdesk.",
+      "Develop and maintain VB.NET, C#, and PHP apps, including TEAMMS, the in-house system for members, clubs, and shoot results.",
+      "Added an elapsed timer and progress bar to TEAMMS shoot processing, which gave no sign of when a run finished. Coworkers praised it and use it daily.",
+      "Take feedback straight from staff and ship it, from quality-of-life fixes to critical bugs.",
+      "Helped migrate the public website from a legacy WordPress 4.6 install to Joomla on PHP 8.5.",
+      "Write T-SQL stored procedures, views, and queries in SQL Server behind national competition results and member data, and load member, shoot, and competition data.",
+      "Automate scheduled jobs, like emailing out the current member list, through Exchange and Microsoft Graph.",
+      "Traced a TEAMMS test environment that kept connecting to the wrong database to a service account missing permissions and a mismatched System.Memory.dll version.",
+      "Support the Azure modernization of legacy systems, and upgraded 9 machines to Windows 11 with PowerShell.",
+      "Handle helpdesk and offboarding, and document one-off fixes so the team never solves them twice.",
     ],
     stack: [
       ["Languages", "VB.NET, C#, PHP, T-SQL, PowerShell, JavaScript / jQuery, HTML / CSS"],
@@ -36,6 +42,20 @@ export const QUESTS: Quest[] = [
       ["Azure", "Azure DevOps, Entra ID, Key Vault, Azure Identity, Microsoft Graph"],
       ["Microsoft 365", "Exchange, Teams, SharePoint, OneDrive, Office"],
       ["Tools", "Visual Studio, VS Code, NuGet, Windows Server, Freshworks"],
+    ],
+  },
+  {
+    dates: "May 2026 – Now",
+    role: "Founder & Engineer",
+    org: "Armsfield LLC (Texas Arms Trader)",
+    orgShort: "Texas Arms Trader",
+    active: true,
+    tags: ["Next.js", "TypeScript", "Cloudflare", "Prisma", "Stripe", "Clerk"],
+    bullets: [
+      "Founded and launched texasarmstrader.com, a Texas firearms marketplace with auctions, live chat, and a forum. It drew 778.5K social media views and 124 new members in its first two weeks.",
+      "Built it solo by directing AI coding agents: 1,381 commits, ~180K lines of TypeScript, 132 data models, and ~4,000 automated tests.",
+      "Runs on Cloudflare Workers, D1, R2, and Durable Objects, after two zero-data-loss migrations (Vercel to Cloudflare, Postgres to D1).",
+      "Integrated live Stripe billing, AI listing moderation with Claude Haiku, and an import pipeline that onboarded 37 sellers from another marketplace.",
     ],
   },
   {
@@ -193,7 +213,7 @@ export const ACHIEVEMENTS: [title: string, date: string][] = [
   ["Microsoft Office Specialist", "2022"],
   ["IC3 Digital Literacy", "2022"],
   ["HackerRank Python", "2024"],
-  ["???", ""],
+  ["778.5K Views in 2 Weeks", "Nov 2026"],
   ["???", ""],
 ];
 
@@ -204,7 +224,7 @@ export type InvItem = [name: string, icon: string, rank: string, usedIn: string,
 
 export const INVENTORY: Record<string, InvItem[]> = {
   Languages: [
-    ["TypeScript", "typescript", "Equipped daily.", "Aloha TT, AssetWorks, TAT Trick", 99],
+    ["TypeScript", "typescript", "180K lines in 10 weeks.", "Texas Arms Trader, Aloha TT, AssetWorks", 99],
     ["Python", "python", "Equipped daily.", "Thrivent, TAT Trick, Mad Hatter", 92],
     ["C#", "csharp", "Enterprise duty.", "NSSA-NSCA", 60],
     ["JavaScript", "javascript", "Equipped daily.", "Everywhere", 95],
@@ -221,7 +241,7 @@ export const INVENTORY: Record<string, InvItem[]> = {
     ["Go", "go", "Form-to-email scripts.", "MCAV Printing", 40],
   ],
   Frameworks: [
-    ["Next.js", "nextdotjs", "App Router believer.", "Aloha TT, this site", 95],
+    ["Next.js", "nextdotjs", "App Router believer.", "Texas Arms Trader, Aloha TT, this site", 95],
     ["React", "react", "Equipped daily.", "TAT Trick, AssetWorks", 95],
     ["React Native", "react", "Ships to 150+ universities.", "AssetWorks, Mad Hatter", 80],
     ["Godot", "godotengine", "8-player netcode survivor.", "Undead Presidents", 85],
@@ -238,7 +258,10 @@ export const INVENTORY: Record<string, InvItem[]> = {
     ["Git", "git", "Commits daily.", "Everything", 95],
     ["Vercel", "vercel", "Home of stevecoder.com.", "Aloha TT, this site", 90],
     ["Supabase", "supabase", "RLS enjoyer.", "Aloha TT", 85],
-    ["Stripe", "stripe", "10 webhooks, idempotent.", "Aloha TT", 80],
+    ["Stripe", "stripe", "Live billing, twice over.", "Texas Arms Trader, Aloha TT", 85],
+    ["Cloudflare", "cloudflare", "Workers, D1, R2, Durable Objects.", "Texas Arms Trader", 85],
+    ["Prisma", "prisma", "132 models deep.", "Texas Arms Trader", 80],
+    ["Clerk", "clerk", "Auth, done right.", "Texas Arms Trader, Aloha TT", 80],
     ["Figma", "figma", "135 components deep.", "Atlantic Records", 85],
     ["Docker", "docker", "Containers when needed.", "NSSA-NSCA, Thrivent", 60],
     ["Azure", "microsoftazure", "Modernizing legacy.", "NSSA-NSCA", 55],
