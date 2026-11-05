@@ -126,7 +126,7 @@ export const LEVELS: Level[] = [
     ogPitch: "A Texas firearms marketplace. 778.5K social views in its first two weeks.",
     stats: [
       { v: "778.5K", k: "views in 2 weeks" },
-      { v: "124", k: "new members" },
+      { v: "180+", k: "new members" },
     ],
     stack: "Next.js · TypeScript · Cloudflare · Prisma · Stripe · Clerk",
     primary: { label: "Visit site", href: "https://texasarmstrader.com" },
@@ -144,7 +144,7 @@ export const LEVELS: Level[] = [
       about: [
         "Texas gun owners buy and sell in scattered Facebook groups and old forums. I wanted one marketplace built for Texas: search by ZIP radius, auctions, real-time chat between buyers and sellers, a forum, and tools to catch scammers.",
         "I built it solo by writing specs and directing AI coding agents: 1,381 commits, about 180K lines of TypeScript, 132 data models, and about 4,000 tests. It runs entirely on Cloudflare's edge (Workers, D1, R2, and Durable Objects for live chat), after two zero-data-loss migrations off Vercel and Postgres. Stripe handles Premium memberships and ad sales, and Claude Haiku moderates new listings.",
-        "Launch content on social media drew 778.5K views in the first two weeks, and 124 people signed up in that time.",
+        "Launch content on social media drew 778.5K views in the first two weeks. In that time, 180+ people signed up and posted 310+ listings.",
       ],
       gallery: [
         shot("texas-arms-trader-patch-notes-1-1.jpg", "Patch notes 1.1, two weeks after launch", 1920, 1080),
@@ -158,8 +158,8 @@ export const LEVELS: Level[] = [
       ],
       results: [
         { v: "778.5K", k: "social views, 2 weeks", signal: true },
-        { v: "124", k: "sign-ups, 2 weeks" },
-        { v: "309", k: "listings posted" },
+        { v: "180+", k: "sign-ups, 2 weeks" },
+        { v: "310+", k: "listings, 2 weeks" },
         { v: "1,381", k: "commits" },
         { v: "132", k: "data models" },
         { v: "~4K", k: "automated tests" },

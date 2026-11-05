@@ -52,7 +52,7 @@ export const QUESTS: Quest[] = [
     active: true,
     tags: ["Next.js", "TypeScript", "Cloudflare", "Prisma", "Stripe", "Clerk"],
     bullets: [
-      "Founded and launched texasarmstrader.com, a Texas firearms marketplace with auctions, live chat, and a forum. It drew 778.5K social media views and 124 new members in its first two weeks.",
+      "Founded and launched texasarmstrader.com, a Texas firearms marketplace with auctions, live chat, and a forum. It reached 778.5K social media views, 310+ listings, and 180+ new members in its first two weeks.",
       "Built it solo by directing AI coding agents: 1,381 commits, ~180K lines of TypeScript, 132 data models, and ~4,000 automated tests.",
       "Runs on Cloudflare Workers, D1, R2, and Durable Objects, after two zero-data-loss migrations (Vercel to Cloudflare, Postgres to D1).",
       "Integrated live Stripe billing, AI listing moderation with Claude Haiku, and an import pipeline that onboarded 37 sellers from another marketplace.",
